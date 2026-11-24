@@ -156,6 +156,11 @@
   .diagram .d-chip rect{fill:var(--ink);stroke:var(--ink)}
   .diagram .d-chip text{fill:var(--ground);font-size:15px}
 
+  .stat{background:var(--ink);color:var(--ground);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,40px)}
+  .stat-n{font-size:clamp(5rem,14vw,13rem);font-weight:700;letter-spacing:-.06em;line-height:.85}
+  .stat-n i{font-style:normal;color:var(--accent);margin-left:.04em}
+  .stat-l{color:#CFC8B8;margin-top:14px;max-width:32ch}
+
   /* method */
   .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);position:relative;padding-top:26px}
   .progress{position:absolute;left:0;right:0;top:0;height:3px;background:var(--hair)}
@@ -351,15 +356,17 @@
       <article class="case">
         <figure class="shot">
           <div class="shot-bar"><b>Application de bureau</b><span class="tiny">Mac · local</span></div>
-          <div class="shot-img"><img src="assets/work/gym_app.webp" alt="Interface de l'application d'analyse vidéo, vidéo du client floutée" loading="lazy" width="1680" height="1050"></div>
-          <figcaption class="tiny muted">Vidéo floutée : les images du client restent privées.</figcaption>
+          <div class="shot-img stat" role="img" aria-label="98 % des images suivies">
+            <span class="stat-n"><span class="big-n" data-to="98">98</span><i>%</i></span>
+            <span class="stat-l tiny">des images suivies sur une finale filmée en 1080p60</span>
+          </div>
         </figure>
         <div class="case-txt">
           <span class="num">01</span>
           <h3>Analyse vidéo pour un entraîneur de gymnastique</h3>
           <p class="role tiny">Mission freelance · conception et développement</p>
           <p>Une application qui suit une gymnaste précise parmi d'autres personnes, en direct ou sur vidéo. Elle tourne en local sur le Mac du client.</p>
-          <p class="res"><span class="big-n" data-to="98">98</span> % des images suivies sur une finale filmée en 1080p60.</p>
+          <p class="res">Suivi fiable même quand d'autres personnes entrent dans le champ.</p>
           <p class="tags tiny">Python · MediaPipe · Application de bureau</p>
         </div>
       </article>
