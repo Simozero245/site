@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohamed Zerouali — Des sites web, et les systèmes derrière</title>
+<meta name="description" content="Mohamed « Simo » Zerouali, freelance à Agadir : sites web, outils internes et automatisation. Un seul interlocuteur, du premier appel à la mise en ligne.">
+<link rel="icon" href="assets/logo/a-symbol.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face{font-family:Satoshi;src:url(assets/fonts/Satoshi-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+  @font-face{font-family:Satoshi;src:url(assets/fonts/Satoshi-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+  @font-face{font-family:Satoshi;src:url(assets/fonts/Satoshi-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+
+  :root{
+    --ground:#EFE9DC;      /* bone */
+    --ink:#0B0B0B;
+    --accent:#B83A1F;      /* brick */
+    --muted:#5F594E;
+    --rule:rgba(11,11,11,.9);
+    --hair:rgba(11,11,11,.18);
+    --pad:clamp(20px,4vw,56px);
+    --slit:.15em;          /* the gap under the bar, taken from the logo */
+  }
+  [data-accent="cobalt"]{--accent:#1E3FFF}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:Satoshi,"Helvetica Neue",Arial,sans-serif;background:var(--ground);color:var(--ink);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:1480px;margin-inline:auto;padding-inline:var(--pad)}
+  .tiny{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+  .muted{color:var(--muted)}
+  .line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+  .line-in{display:block;will-change:transform}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+  /* ---------- header ---------- */
+  .top{border-bottom:1px solid var(--rule)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+  .logo svg{width:34px;height:34px;overflow:visible}
+  .logo img{height:26px;width:auto}
+  .nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,34px)}
+  .nav a{text-decoration:none;font-weight:500;font-size:.95rem;position:relative;padding:6px 0}
+  .nav a:not(.cta)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  .nav a:not(.cta):hover::after{transform:scaleX(1)}
+  .cta{background:var(--ink);color:var(--ground);padding:11px 18px !important;font-weight:700 !important;transition:background .25s}
+  .cta:hover{background:var(--accent)}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:clamp(18px,2.4vw,34px);padding-bottom:clamp(40px,6vw,88px)}
+  .hero-meta{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,28px)}
+  .dot{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--accent);margin-right:.55em;vertical-align:.02em}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(210px,24vw,360px);column-gap:clamp(20px,4vw,60px)}
+  h1{display:contents;font-weight:700}
+  h1 .big{font-size:clamp(2.7rem,10.1vw,11.6rem);line-height:.94;letter-spacing:-.045em;font-weight:700}
+  .h-bar{grid-column:1/-1;background:var(--ink);color:var(--ground);padding:.05em .1em .09em;margin-bottom:var(--slit);transform-origin:left center}
+  .l2{grid-column:1/-1}
+  .l3{grid-column:1;align-self:start}
+  .l3 i{font-style:normal;color:var(--accent)}
+  .portrait{grid-column:2;grid-row:3/span 2;align-self:start;margin-top:.9vw}
+  .p-bar{background:var(--ink);color:var(--ground);display:flex;justify-content:space-between;align-items:center;padding:9px 12px;margin-bottom:8px;transform-origin:left center}
+  .p-bar b{font-size:.92rem}
+  .p-img{overflow:hidden;aspect-ratio:4/5;clip-path:inset(0% 0% 0% 0%);background:#d9d4c8}
+  .p-img img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .hero-foot{grid-column:1;margin-top:clamp(22px,3vw,44px);max-width:52ch}
+  .hero-foot p{font-size:clamp(1.02rem,1.25vw,1.22rem);line-height:1.5}
+  .actions{display:flex;flex-wrap:wrap;gap:24px 26px;align-items:center;margin-top:26px}
+  /* no CSS transition on transform here: GSAP animates this element's transform (the two would fight) */
+  .btn{display:inline-flex;align-items:center;gap:.6em;background:var(--accent);color:#fff;padding:16px 24px;font-weight:700;text-decoration:none;transition:background .25s,color .25s}
+  .btn:hover{background:var(--ink)}
+  .btn:active{filter:brightness(.9)}
+  .btn .arr{display:inline-block;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+  .btn:hover .arr{transform:translateX(5px)}
+  .link{font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink);padding-bottom:3px;transition:color .2s,border-color .2s}
+  .link:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ---------- marquee ---------- */
+  .marquee{border-block:1px solid var(--rule);overflow:hidden;white-space:nowrap}
+  .marquee-track{display:inline-flex;gap:0;will-change:transform}
+  .marquee span{font-size:clamp(1.1rem,2.2vw,2rem);font-weight:700;letter-spacing:-.02em;padding:.55em 0}
+  .marquee span::after{content:"";display:inline-block;width:.42em;height:.42em;background:var(--accent);margin:0 .9em;vertical-align:.12em}
+
+  /* ---------- sections ---------- */
+  section{padding-block:clamp(48px,6.4vw,104px)}
+  .sec-head{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;margin-bottom:clamp(30px,4.6vw,70px);align-items:start}
+  .sec-head h2{font-size:clamp(2rem,5.6vw,5.6rem);line-height:.98;letter-spacing:-.04em;font-weight:700;max-width:16ch;text-wrap:balance}
+  .rule{height:1px;background:var(--rule);transform-origin:left center}
+
+  /* the logo explained */
+  .zscene{padding-block:0}
+  .zpin{min-height:100vh;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,5vw,80px);align-items:center;padding-block:clamp(40px,6vw,80px)}
+  .zmark{width:min(100%,58vh);margin-inline:auto;overflow:visible}
+  .zmark path{fill:var(--ink)}
+  .zcopy h2{font-size:clamp(1.8rem,4.2vw,4rem);line-height:1;letter-spacing:-.035em;max-width:15ch;margin:14px 0 clamp(22px,3vw,44px)}
+  .zblock{border-top:1px solid var(--rule);padding:18px 0 22px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:18px}
+  .zblock h3{font-size:clamp(1.3rem,2.2vw,2rem);letter-spacing:-.02em;line-height:1.1}
+  .zblock p,.zblock li{font-size:1.02rem}
+  .zblock ul{list-style:none}
+  .zblock li{padding:7px 0;border-bottom:1px solid var(--hair)}
+  .zblock li:last-child{border-bottom:0}
+
+  /* services + method rows */
+  .rows{border-top:1px solid var(--rule)}
+  .row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,5fr) minmax(0,5.6fr);gap:24px;padding:clamp(22px,2.8vw,40px) 0;border-bottom:1px solid var(--rule);align-items:baseline}
+  .row .num{font-size:clamp(1.6rem,3.4vw,3.4rem);font-weight:700;letter-spacing:-.04em;color:var(--accent);line-height:1}
+  .row h3{font-size:clamp(1.35rem,2.5vw,2.3rem);line-height:1.06;letter-spacing:-.03em;text-wrap:balance}
+  .row p{font-size:1.04rem;max-width:52ch}
+
+  /* work */
+  .work{border-top:1px solid var(--rule)}
+  .job{display:grid;grid-template-columns:minmax(0,5.6fr) minmax(0,6.4fr);gap:clamp(18px,4vw,60px);padding:clamp(24px,3vw,44px) clamp(0px,1vw,14px);border-bottom:1px solid var(--rule);text-decoration:none;position:relative;transition:color .35s}
+  .job::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:0}
+  .job>*{position:relative;z-index:1}
+  a.job:hover{color:var(--ground)}
+  a.job:hover::before{transform:scaleY(1)}
+  a.job:hover .role,a.job:hover .tags{color:#CFC8B8}
+  .job h3{font-size:clamp(1.5rem,3.3vw,3.1rem);line-height:1.02;letter-spacing:-.035em;text-wrap:balance}
+  .job .role{color:var(--muted);margin-top:12px;transition:color .35s}
+  .job p{font-size:1.04rem;max-width:56ch}
+  .job .res{font-weight:700;margin-top:10px}
+  .job .tags{margin-top:14px;color:var(--muted);transition:color .35s}
+  .job .go{font-weight:700;margin-top:14px;display:inline-block}
+  .also{margin-top:22px;max-width:80ch}
+
+  /* case studies with images (v2) */
+  .cases{display:flex;flex-direction:column;gap:clamp(56px,8vw,130px);border-top:1px solid var(--rule);padding-top:clamp(36px,5vw,70px)}
+  .case{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(22px,4.5vw,72px);align-items:center}
+  .case.flip .shot{order:2}
+  .shot{display:block;text-decoration:none;color:inherit}
+  .shot-bar{background:var(--ink);color:var(--ground);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin-bottom:8px;transform-origin:left center}
+  .shot-bar b{font-size:.95rem}
+  .shot-img{overflow:hidden;aspect-ratio:16/10;background:#d9d4c8;clip-path:inset(0 0 0 0)}
+  .shot-img img{width:100%;height:100%;object-fit:cover;object-position:top center;transform-origin:center top;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  a.shot:hover .shot-img img{transform:scale(1.035)}
+  a.shot:hover .shot-bar{background:var(--accent)}
+  .shot figcaption{margin-top:10px}
+  .case-txt .num{font-size:clamp(2.6rem,6vw,5.6rem);font-weight:700;letter-spacing:-.05em;line-height:.9;color:var(--accent);display:block}
+  .case-txt h3{font-size:clamp(1.5rem,2.8vw,2.7rem);line-height:1.04;letter-spacing:-.035em;margin-top:14px;text-wrap:balance}
+  .case-txt .role{color:var(--muted);margin:12px 0 16px}
+  .case-txt p{font-size:1.04rem;max-width:48ch}
+  .case-txt .res{font-weight:700;margin-top:12px;font-size:1.08rem}
+  .case-txt .big-n{font-variant-numeric:tabular-nums}
+  .case-txt .tags{margin-top:14px;color:var(--muted)}
+  .diagram{background:var(--ground);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center}
+  .diagram svg{width:100%;height:100%}
+  .diagram rect{fill:var(--ground);stroke:var(--ink);stroke-width:2}
+  .diagram .accent rect{fill:var(--accent);stroke:var(--accent)}
+  .diagram .accent text{fill:#fff}
+  .diagram text{font-family:Satoshi,sans-serif;font-weight:700;font-size:17px;text-anchor:middle;fill:var(--ink)}
+  .diagram text.s{font-weight:500;font-size:13px;fill:var(--muted)}
+  .diagram .accent text.s{fill:#F6D9CF}
+  .diagram .d-line{stroke:var(--ink);stroke-width:3;fill:none}
+  .diagram .d-line.thin{stroke-width:1.5;stroke-dasharray:4 5}
+  .diagram .d-chip rect{fill:var(--ink);stroke:var(--ink)}
+  .diagram .d-chip text{fill:var(--ground);font-size:15px}
+
+  /* method */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);position:relative;padding-top:26px}
+  .progress{position:absolute;left:0;right:0;top:0;height:3px;background:var(--hair)}
+  .progress i{display:block;height:100%;background:var(--accent);transform-origin:left center}
+  .step .n{font-size:clamp(2.4rem,5vw,4.6rem);font-weight:700;letter-spacing:-.05em;line-height:1}
+  .step h3{font-size:1.22rem;line-height:1.15;letter-spacing:-.015em;margin:12px 0 8px;text-wrap:balance}
+  .step p{font-size:.98rem;color:#2E2B25}
+
+  /* about */
+  .about{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,5vw,80px)}
+  .about p{font-size:clamp(1.05rem,1.4vw,1.3rem);max-width:54ch}
+  .about p+p{margin-top:1em}
+  .tools{border-top:1px solid var(--rule)}
+  .tools div{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:14px;padding:12px 0;border-bottom:1px solid var(--hair);font-size:.98rem}
+
+  /* contact */
+  .contact{background:var(--accent);color:#fff;padding-block:clamp(70px,10vw,160px)}
+  .contact h2{font-size:clamp(2.4rem,8.4vw,9.4rem);line-height:.94;letter-spacing:-.045em;font-weight:700;margin:18px 0 clamp(26px,4vw,56px)}
+  .contact .btn{background:var(--ink)}
+  .contact .btn:hover{background:#fff;color:var(--ink)}
+  .contact .link{border-color:#fff}
+  .contact .link:hover{color:var(--ink);border-color:var(--ink)}
+  footer{background:var(--ink);color:var(--ground);padding-block:26px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .logo svg path{fill:var(--ground)}
+  footer .logo img{filter:invert(1)}
+
+  /* tweaks (hidden unless opened with the T key or ?tweaks=1) */
+  .tweaks{position:fixed;right:16px;bottom:16px;z-index:50;background:var(--ink);color:var(--ground);padding:14px 16px;display:none;min-width:210px}
+  .tweaks.open{display:block}
+  .tweaks b{display:block;margin-bottom:8px}
+  .tweaks .r{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:.82rem}
+  .tweaks button{font:inherit;font-size:.82rem;font-weight:700;background:transparent;color:inherit;border:1px solid rgba(239,233,220,.5);padding:5px 9px;cursor:pointer}
+  .tweaks button[aria-pressed="true"]{background:var(--ground);color:var(--ink)}
+
+  @media (max-width:860px){
+    .nav a:not(.cta){display:none}
+    .hero-grid{grid-template-columns:minmax(0,1fr)}
+    .portrait{grid-column:1;grid-row:auto;margin-top:26px;max-width:340px}
+    .sec-head,.zpin,.about,.job,.case{grid-template-columns:minmax(0,1fr)}
+    .case.flip .shot{order:0}
+    .zpin{min-height:auto}
+    .zmark{width:min(64vw,300px)}
+    .row{grid-template-columns:minmax(0,1fr);gap:10px}
+    .steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px}
+    .zblock{grid-template-columns:minmax(0,1fr);gap:8px}
+  }
+  @media (max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+  /* ===== v3: ui-ux-pro-max audit fixes ===== */
+  .tiny{font-size:.8rem}                                        /* was 11.8px: now >= 12px */
+  .skip{position:absolute;left:12px;top:-60px;z-index:80;background:var(--ink);color:var(--ground);padding:12px 16px;font-weight:700;text-decoration:none}
+  .skip:focus{top:12px}
+  .logo{min-height:44px}                                        /* touch target */
+  .link{display:inline-flex;align-items:center;min-height:44px;border-bottom:0;padding:0;
+        background:linear-gradient(currentColor,currentColor) left calc(100% - 9px)/100% 2px no-repeat;transition:color .2s}
+  .link:hover{background-size:100% 2px}
+  .ic{width:1em;height:1em;flex:none}
+  .ic.sm{width:.95em;height:.95em;vertical-align:-.12em;margin-left:.2em}
+  .ibox{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border:1.5px solid var(--ink);margin-bottom:14px}
+  .ibox .ic{width:22px;height:22px}
+  .row h3 .ibox{display:flex}
+  .step .n{display:flex;justify-content:space-between;align-items:flex-start}
+  .step .ibox{margin:0;width:42px;height:42px;color:var(--accent);border-color:var(--accent)}
+  .diagram .accent text.s{fill:#fff}                            /* was 4.30:1 on brick */
+  .p-img.cut{background:var(--accent)}
+  .p-img.cut img{object-fit:cover;object-position:50% 12%}
+  /* mobile menu */
+  .burger{display:none;align-items:center;justify-content:center;width:48px;height:48px;border:0;background:var(--ink);color:var(--ground);cursor:pointer}
+  .burger .ic{width:24px;height:24px}
+  .mnav{position:fixed;inset:0;z-index:60;background:var(--ink);color:var(--ground);padding:22px var(--pad);display:flex;flex-direction:column}
+  .mnav[hidden]{display:none}
+  .mclose{align-self:flex-end;width:48px;height:48px;border:1px solid rgba(239,233,220,.4);background:transparent;color:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .mclose .ic{width:24px;height:24px}
+  .mnav nav{display:flex;flex-direction:column;margin-top:auto;margin-bottom:auto}
+  .mnav nav a{display:flex;align-items:baseline;gap:14px;min-height:64px;padding:8px 0;font-size:clamp(2.2rem,11vw,3.6rem);font-weight:700;letter-spacing:-.04em;text-decoration:none;border-bottom:1px solid rgba(239,233,220,.18)}
+  .mnav nav a span{font-size:.9rem;letter-spacing:.1em;color:var(--accent);font-weight:700}
+  .mnav .mcta{margin-top:26px;border:0 !important;background:var(--accent);color:#fff;font-size:1.15rem !important;letter-spacing:0 !important;padding:18px 20px !important;align-items:center !important;justify-content:space-between}
+  @media (max-width:860px){
+    .burger{display:inline-flex}
+    .nav .cta{display:none}
+  }
+</style>
+</head>
+<body data-accent="brick" data-logo="a">
+<a class="skip" href="#top">Aller au contenu</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Mohamed Zerouali, accueil">
+      <svg class="mark" viewBox="0 0 256 256" aria-hidden="true"><path class="m-bar" d="M56 44H200V88H56Z"/><path class="m-sys" d="M112 112H176L120 168H200V212H56V168Z"/></svg>
+      <span class="logo-name">Mohamed Zerouali</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#travaux">Travaux</a>
+      <a href="#services">Services</a>
+      <a href="#methode">Méthode</a>
+      <a href="#apropos">À propos</a>
+      <a class="cta" href="https://wa.me/212615665074">Discutons</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Ouvrir le menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" /></svg></button>
+    </nav>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" hidden>
+  <button class="mclose" type="button" aria-label="Fermer le menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></button>
+  <nav aria-label="Menu mobile">
+    <a href="#travaux"><span>01</span>Travaux</a>
+    <a href="#services"><span>02</span>Services</a>
+    <a href="#methode"><span>03</span>Méthode</a>
+    <a href="#apropos"><span>04</span>À propos</a>
+    <a class="mcta" href="https://wa.me/212615665074">Écrire sur WhatsApp <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>
+  </nav>
+</div>
+
+<main id="top" tabindex="-1">
+  <!-- ================= HERO ================= -->
+  <div class="hero wrap">
+    <div class="hero-meta tiny">
+      <span>Mohamed Zerouali · freelance · Agadir, à distance</span>
+      <span><i class="dot"></i>Disponible · réponse sous 24 h</span>
+    </div>
+    <div class="hero-grid">
+      <h1>
+        <span class="big h-bar"><span class="line"><span class="line-in">Des sites web,</span></span></span>
+        <span class="big l2 hl"><span class="line"><span class="line-in">et les systèmes</span></span></span>
+        <span class="big l3 hl"><span class="line"><span class="line-in">derrière<i>.</i></span></span></span>
+      </h1>
+      <figure class="portrait">
+        <div class="p-bar"><b>Simo</b><span class="tiny">Freelance</span></div>
+        <div class="p-img cut"><img src="assets/img/simo_cut.webp" alt="Portrait de Mohamed Zerouali" width="1024" height="1024"></div>
+      </figure>
+      <div class="hero-foot">
+        <p>Je construis le site que vos clients voient, et l'outil qui travaille derrière : tableau de bord, base de données, automatisation. Un seul interlocuteur, du premier appel à la mise en ligne.</p>
+        <div class="actions">
+          <a class="btn" href="https://wa.me/212615665074">Parlons de votre projet <span class="arr" aria-hidden="true">→</span></a>
+          <a class="link" href="#travaux">Voir les travaux</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Sites web</span><span>Applications web</span><span>Outils internes</span><span>Automatisation</span><span>Scraping</span><span>Tableaux de bord</span><span>E-commerce</span><span>Pipelines de données</span>
+      <span>Sites web</span><span>Applications web</span><span>Outils internes</span><span>Automatisation</span><span>Scraping</span><span>Tableaux de bord</span><span>E-commerce</span><span>Pipelines de données</span>
+    </div>
+  </div>
+
+  <!-- ================= THE LOGO EXPLAINED ================= -->
+  <section class="zscene" aria-labelledby="z-title">
+    <div class="wrap zpin">
+      <svg class="zmark" viewBox="0 0 256 256" role="img" aria-label="Le logo : une barre, et un système derrière"><path class="z-bar" d="M56 44H200V88H56Z"/><path class="z-sys" d="M112 112H176L120 168H200V212H56V168Z"/></svg>
+      <div class="zcopy">
+        <span class="tiny muted">Le logo, c'est la méthode</span>
+        <h2 id="z-title">Un site, et tout ce qui le fait tourner.</h2>
+        <div class="zblock zb1">
+          <div><span class="tiny muted">Ce qu'on voit</span><h3>Le site</h3></div>
+          <p>Vitrine, boutique ou application. Clair, rapide, et vous le mettez à jour vous-même.</p>
+        </div>
+        <div class="zblock zb2">
+          <div><span class="tiny muted">Ce qui travaille derrière</span><h3>Le système</h3></div>
+          <ul>
+            <li>Le tableau de bord qui remplace vos fichiers Excel</li>
+            <li>Les tâches répétitives qui se font toutes seules</li>
+            <li>Les données qui circulent sans ressaisie</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES ================= -->
+  <section id="services" class="wrap">
+    <div class="sec-head">
+      <span class="tiny muted">Services</span>
+      <h2 class="rv"><span class="line"><span class="line-in">Trois façons</span></span><span class="line"><span class="line-in">d'être utile.</span></span></h2>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="num">01</span><h3><span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8" /> <path d="M10 19v-3.96 3.15" /> <path d="M7 19h5" /> <rect width="6" height="10" x="16" y="12" rx="2" /></svg></span>Un site qui travaille pour vous</h3><p>Sur mesure, ou sur WordPress et Shopify. Pensé pour être trouvé, compris, et pour que le visiteur passe à l'action.</p></div>
+      <div class="row"><span class="num">02</span><h3><span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>L'outil interne que personne ne veut construire</h3><p>Tableaux de bord, back-offices, espaces d'administration. Fait pour votre façon de travailler, pas l'inverse.</p></div>
+      <div class="row"><span class="num">03</span><h3><span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="8" x="3" y="3" rx="2" /> <path d="M7 11v4a2 2 0 0 0 2 2h4" /> <rect width="8" height="8" x="13" y="13" rx="2" /></svg></span>L'automatisation de ce que vous répétez</h3><p>Déplacer des données, générer des documents, trier des fichiers, sortir des rapports. La machine s'en charge.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section id="travaux" class="wrap">
+    <div class="sec-head">
+      <span class="tiny muted">Travaux</span>
+      <h2 class="rv"><span class="line"><span class="line-in">Les travaux, et</span></span><span class="line"><span class="line-in">mon vrai rôle</span></span><span class="line"><span class="line-in">sur chacun.</span></span></h2>
+    </div>
+    <div class="cases">
+      <article class="case">
+        <figure class="shot">
+          <div class="shot-bar"><b>Application de bureau</b><span class="tiny">Mac · local</span></div>
+          <div class="shot-img"><img src="assets/work/gym_app.webp" alt="Interface de l'application d'analyse vidéo, vidéo du client floutée" loading="lazy" width="1680" height="1050"></div>
+          <figcaption class="tiny muted">Vidéo floutée : les images du client restent privées.</figcaption>
+        </figure>
+        <div class="case-txt">
+          <span class="num">01</span>
+          <h3>Analyse vidéo pour un entraîneur de gymnastique</h3>
+          <p class="role tiny">Mission freelance · conception et développement</p>
+          <p>Une application qui suit une gymnaste précise parmi d'autres personnes, en direct ou sur vidéo. Elle tourne en local sur le Mac du client.</p>
+          <p class="res"><span class="big-n" data-to="98">98</span> % des images suivies sur une finale filmée en 1080p60.</p>
+          <p class="tags tiny">Python · MediaPipe · Application de bureau</p>
+        </div>
+      </article>
+
+      <article class="case flip">
+        <figure class="shot">
+          <div class="shot-bar"><b>Pipeline de données</b><span class="tiny">Client sous confidentialité</span></div>
+          <div class="shot-img diagram">
+            <svg viewBox="0 0 640 400" role="img" aria-label="Schéma : catalogue des sites, tri des images, fichier d'import">
+              <g class="d-node"><rect x="34" y="150" width="150" height="100"/><text x="109" y="194">Catalogue</text><text class="s" x="109" y="218">sites e-commerce</text></g>
+              <g class="d-node"><rect x="245" y="150" width="150" height="100"/><text x="320" y="194">Tri des images</text><text class="s" x="320" y="218">vision par ordinateur</text></g>
+              <g class="d-node accent"><rect x="456" y="150" width="150" height="100"/><text x="531" y="194">Fichier d'import</text><text class="s" x="531" y="218">CSV prêt à charger</text></g>
+              <path class="d-line" d="M184 200H245"/><path class="d-line" d="M395 200H456"/>
+              <g class="d-chip"><rect x="200" y="60" width="240" height="44"/><text x="320" y="88">1 à 2 jours → moins de 30 min</text></g>
+              <path class="d-line thin" d="M320 104V150"/>
+            </svg>
+          </div>
+          <figcaption class="tiny muted">Schéma : le client et ses données restent confidentiels.</figcaption>
+        </figure>
+        <div class="case-txt">
+          <span class="num">02</span>
+          <h3>Outil interne pour une startup SaaS B2B</h3>
+          <p class="role tiny">Mission longue durée · pipeline de données</p>
+          <p>Un pipeline qui récupère un catalogue produit complet, trie les images et prépare le fichier d'import.</p>
+          <p class="res">Environ <span class="big-n" data-to="40">40</span> fois plus rapide qu'à la main.</p>
+          <p class="tags tiny">Python · Flask · Vision par ordinateur</p>
+        </div>
+      </article>
+
+      <article class="case">
+        <a class="shot" href="https://diriddik.ma" target="_blank" rel="noopener">
+          <div class="shot-bar"><b>diriddik.ma</b><span class="tiny">Voir le site <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></span></div>
+          <div class="shot-img"><img src="assets/work/diriddik.webp" alt="Page d'accueil de diriddik.ma" loading="lazy" width="1440" height="840"></div>
+        </a>
+        <div class="case-txt">
+          <span class="num">03</span>
+          <h3>Dir iddik, la plateforme de bénévolat d'inwi</h3>
+          <p class="role tiny">J'ai fait tourner la plateforme : contenus et CMS, pas le développement d'origine</p>
+          <p>Une plateforme Drupal en trois langues qui relie les bénévoles marocains aux associations.</p>
+          <p class="res">Plus de <span class="big-n" data-to="70000">70 000</span> personnes l'ont utilisée.</p>
+          <p class="tags tiny">Drupal · Français, anglais, arabe</p>
+        </div>
+      </article>
+
+      <article class="case flip">
+        <a class="shot" href="https://danialand.com" target="_blank" rel="noopener">
+          <div class="shot-bar"><b>danialand.com</b><span class="tiny">Voir le site <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></span></div>
+          <div class="shot-img"><img src="assets/work/danialand.webp" alt="Page d'accueil de danialand.com" loading="lazy" width="1440" height="840"></div>
+        </a>
+        <div class="case-txt">
+          <span class="num">04</span>
+          <h3>Danialand, parc de loisirs</h3>
+          <p class="role tiny">Intégration de contenu, au sein de l'équipe</p>
+          <p>Un site WordPress et WooCommerce avec réservation en ligne. J'ai intégré les pages, la structure et les textes en trois langues.</p>
+          <p class="tags tiny">WordPress · WooCommerce · Multilingue</p>
+        </div>
+      </article>
+    </div>
+    <p class="also muted">Aussi : Sortir Casablanca (guide de la ville, production des pages, côté agence) et Hawa Mode Belgium (boutique en ligne, intégration de contenu).</p>
+  </section>
+
+  <!-- ================= METHOD ================= -->
+  <section id="methode" class="wrap">
+    <div class="sec-head">
+      <span class="tiny muted">Méthode</span>
+      <h2 class="rv"><span class="line"><span class="line-in">Sans surprise,</span></span><span class="line"><span class="line-in">en quatre étapes.</span></span></h2>
+    </div>
+    <div class="steps">
+      <div class="progress"><i></i></div>
+      <div class="step"><div class="n">1<span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /> <path d="M14.05 2a9 9 0 0 1 8 7.94" /> <path d="M14.05 6A5 5 0 0 1 18 10" /></svg></span></div><h3>Un appel gratuit de 30 minutes</h3><p>Vous m'expliquez le besoin, je vous dis ce qui est faisable.</p></div>
+      <div class="step"><div class="n">2<span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg></span></div><h3>Un périmètre écrit, à prix fixe</h3><p>Ce qui est inclus, le délai et le prix, avant de commencer.</p></div>
+      <div class="step"><div class="n">3<span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3" /></svg></span></div><h3>Une démo rapide sur vos vraies données</h3><p>Vous voyez tôt quelque chose qui marche, et on ajuste.</p></div>
+      <div class="step"><div class="n">4<span class="ibox"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 2 2 4-4" /> <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" /> <path d="m7.5 4.27 9 5.15" /> <polyline points="3.29 7 12 12 20.71 7" /> <line x1="12" x2="12" y1="22" y2="12" /></svg></span></div><h3>La livraison, avec documentation et support</h3><p>Vous repartez autonome, et je reste joignable après la mise en ligne.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="apropos" class="wrap">
+    <div class="sec-head">
+      <span class="tiny muted">À propos</span>
+      <h2 class="rv"><span class="line"><span class="line-in">Arrivé au code</span></span><span class="line"><span class="line-in">par un autre chemin.</span></span></h2>
+    </div>
+    <div class="about">
+      <div>
+        <p>J'ai étudié l'économie et la gestion, puis j'ai passé deux ans à faire tourner une plateforme nationale pour un opérateur télécom. C'est là que j'ai vu ce qui coûte vraiment du temps dans une entreprise.</p>
+        <p>Ensuite je suis passé à la construction : Python d'abord, puis le web. Je travaille à distance, en français, en anglais ou en arabe.</p>
+      </div>
+      <div class="tools">
+        <div><span class="tiny muted">Web</span><span>JavaScript, HTML, CSS, WordPress, Shopify</span></div>
+        <div><span class="tiny muted">Back-end</span><span>Python, Flask, FastAPI, API REST</span></div>
+        <div><span class="tiny muted">Données</span><span>Pandas, NumPy, ETL, scraping</span></div>
+        <div><span class="tiny muted">Automatisation</span><span>Playwright, Make, n8n, Zapier</span></div>
+        <div><span class="tiny muted">IA</span><span>Vision par ordinateur, prompting LLM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="tiny">Discutons</span>
+      <h2 class="rv"><span class="line"><span class="line-in">Quelle tâche vous</span></span><span class="line"><span class="line-in">coûte le plus</span></span><span class="line"><span class="line-in">de temps ?</span></span></h2>
+      <div class="actions">
+        <a class="btn" href="https://wa.me/212615665074">Écrire sur WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+        <a class="link" href="mailto:simamazer@gmail.com">simamazer@gmail.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Retour en haut">
+      <svg class="mark" viewBox="0 0 256 256" aria-hidden="true"><path d="M56 44H200V88H56Z"/><path d="M112 112H176L120 168H200V212H56V168Z"/></svg>
+      <span class="logo-name">Mohamed Zerouali</span>
+    </a>
+    <span class="tiny">© 2026 · À distance · français, anglais, arabe</span>
+  </div>
+</footer>
+
+
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  gsap.registerPlugin(ScrollTrigger);
+  var qs = new URLSearchParams(location.search);
+
+  /* ---- v3: mobile menu (keyboard + screen-reader friendly) ---- */
+  var burger = document.querySelector(".burger"), mnav = document.getElementById("mnav");
+  function openMenu() {
+    mnav.hidden = false; burger.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden";
+    gsap.fromTo(mnav, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.55, ease: "expo.out" });
+    gsap.from(".mnav nav a", { yPercent: 60, autoAlpha: 0, stagger: 0.06, duration: 0.6, ease: "power4.out", delay: 0.12 });
+    mnav.querySelector(".mclose").focus();
+  }
+  function closeMenu(focusBack) {
+    gsap.to(mnav, { clipPath: "inset(0 0 100% 0)", duration: 0.35, ease: "power3.in", onComplete: function () {
+      mnav.hidden = true; document.body.style.overflow = ""; burger.setAttribute("aria-expanded", "false");
+      if (focusBack) burger.focus();
+    } });
+  }
+  burger.addEventListener("click", openMenu);
+  mnav.querySelector(".mclose").addEventListener("click", function () { closeMenu(true); });
+  mnav.querySelectorAll("nav a").forEach(function (a) { a.addEventListener("click", function () { closeMenu(false); }); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !mnav.hidden) closeMenu(true); });
+
+  var mm = gsap.matchMedia();
+
+  mm.add("(prefers-reduced-motion: no-preference)", function () {
+    /* ---------- intro: the logo assembles, then the page follows the same order (bar, slit, system) ---------- */
+    var intro = gsap.timeline({ defaults: { ease: "power4.out", duration: 1 }, paused: true });
+    intro
+      .from(".top .m-sys", { yPercent: 45, autoAlpha: 0, duration: 0.7 }, 0)
+      .from(".top .m-bar", { xPercent: -70, autoAlpha: 0, duration: 0.7 }, 0.14)
+      .from(".top .logo-name, .nav a", { y: -14, autoAlpha: 0, stagger: 0.05, duration: 0.6 }, 0.22)
+      .from(".h-bar", { scaleX: 0, duration: 1.1, ease: "expo.inOut" }, 0.15)
+      .from(".h-bar .line-in", { yPercent: 112, duration: 0.9 }, 0.8)
+      .from(".hl .line-in", { yPercent: 112, stagger: 0.13 }, 0.98)
+      .from(".p-bar", { scaleX: 0, duration: 0.8, ease: "expo.inOut" }, 1.05)
+      .from(".p-bar > *", { autoAlpha: 0, duration: 0.4 }, 1.6)
+      .from(".p-img", { clipPath: "inset(0% 0% 100% 0%)", duration: 1.15, ease: "expo.out" }, 1.4)
+      .from(".p-img img", { scale: 1.28, duration: 1.7, ease: "expo.out" }, 1.4)
+      .from(".hero-meta > *, .hero-foot > *", { y: 20, autoAlpha: 0, stagger: 0.09, duration: 0.75 }, 1.5);
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+      intro.play(0);
+      ScrollTrigger.refresh();
+    });
+
+    /* ---------- marquee ---------- */
+    gsap.to(".marquee-track", { xPercent: -50, ease: "none", duration: 30, repeat: -1 });
+
+    /* ---------- the logo explained (pinned, scrubbed on desktop) ---------- */
+    var wide = window.matchMedia("(min-width: 861px)").matches;
+    var ACCENT = getComputedStyle(document.body).getPropertyValue("--accent").trim(), INK = "#0B0B0B";
+    /* entrance: the mark assembles as soon as the scene comes into view (system first, then the bar lands) */
+    gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: ".zpin", start: "top 78%", toggleActions: "play none none none" } })
+      .from(".z-sys", { yPercent: 30, autoAlpha: 0, duration: 0.9 }, 0)
+      .from(".z-bar", { xPercent: -130, autoAlpha: 0, duration: 1, ease: "expo.out" }, 0.15)
+      .from(".zcopy > .tiny, .zcopy h2", { y: 26, autoAlpha: 0, stagger: 0.1, duration: 0.8 }, 0.2);
+    /* story: scrubbed while pinned on desktop; plays once on small screens */
+    var z = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: wide
+        ? { trigger: ".zpin", start: "top top", end: "+=120%", pin: true, scrub: true }
+        : { trigger: ".zb1", start: "top 82%", toggleActions: "play none none none" }
+    });
+    z.to(".z-bar", { y: -20, fill: ACCENT, duration: 0.8 }, 0)
+     .from(".zb1", { y: 30, autoAlpha: 0, duration: 0.8 }, 0)
+     .to(".z-bar", { y: 0, fill: INK, duration: 0.7 }, 1.2)
+     .to(".z-sys", { y: 18, fill: ACCENT, duration: 0.7 }, 1.2)
+     .from(".zb2", { y: 30, autoAlpha: 0, duration: 0.7 }, 1.2)
+     .from(".zb2 li", { x: 24, autoAlpha: 0, stagger: 0.16, duration: 0.5 }, 1.5)
+     .to(".z-sys", { y: 0, fill: INK, duration: 0.6 }, 2.5)
+     .to({}, { duration: 0.3 });
+
+    /* ---------- section titles: lines slide up on their baseline ---------- */
+    gsap.utils.toArray(".rv").forEach(function (h) {
+      gsap.from(h.querySelectorAll(".line-in"), {
+        yPercent: 112, duration: 1, ease: "power4.out", stagger: 0.12,
+        scrollTrigger: { trigger: h, start: "top 86%", toggleActions: "play none none none" }
+      });
+    });
+
+    /* ---------- case studies: bar draws, image wipes open, text follows, numbers count ---------- */
+    gsap.utils.toArray(".case").forEach(function (c) {
+      var flip = c.classList.contains("flip");
+      var tl = gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: c, start: "top 78%", toggleActions: "play none none none" } });
+      tl.from(c.querySelector(".shot-bar"), { scaleX: 0, duration: 0.8, ease: "expo.inOut", transformOrigin: flip ? "right center" : "left center" }, 0)
+        .from(c.querySelector(".shot-bar").children, { autoAlpha: 0, duration: 0.3 }, 0.6)
+        .from(c.querySelector(".shot-img"), { clipPath: flip ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)", duration: 1.2, ease: "expo.inOut" }, 0.35)
+        .from(c.querySelectorAll(".case-txt > *"), { y: 28, autoAlpha: 0, stagger: 0.07, duration: 0.8 }, 0.5);
+      var img = c.querySelector(".shot-img img");
+      if (img) gsap.fromTo(img, { yPercent: 0, scale: 1.12 }, { yPercent: -6, scale: 1.12, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } });
+      var n = c.querySelector(".big-n");
+      if (n) {
+        var to = +n.dataset.to, o = { v: 0 };
+        tl.to(o, { v: to, duration: 1.6, ease: "power2.out", onUpdate: function () { n.textContent = Math.round(o.v).toLocaleString("fr-FR").replace(/ /g, " "); } }, 0.9);
+      }
+      var d = c.querySelector(".diagram");
+      if (d) {
+        d.querySelectorAll(".d-line").forEach(function (p) { var L = p.getTotalLength(); gsap.set(p, { strokeDasharray: p.classList.contains("thin") ? "4 5" : L, strokeDashoffset: p.classList.contains("thin") ? 0 : L }); });
+        tl.from(d.querySelectorAll(".d-node"), { y: 18, autoAlpha: 0, stagger: 0.28, duration: 0.6 }, 1.0)
+          .to(d.querySelectorAll(".d-line:not(.thin)"), { strokeDashoffset: 0, stagger: 0.28, duration: 0.5, ease: "power2.inOut" }, 1.25)
+          .from(d.querySelector(".d-chip"), { y: -16, autoAlpha: 0, duration: 0.6 }, 2.0)
+          .from(d.querySelector(".d-line.thin"), { autoAlpha: 0, duration: 0.4 }, 2.3);
+      }
+    });
+
+    /* ---------- rows, steps: batched entrance ---------- */
+    gsap.set(".row, .step, .tools div, .about p", { autoAlpha: 0, y: 34 });
+    ScrollTrigger.batch(".row, .step, .tools div, .about p", {
+      start: "top 90%", once: true,
+      onEnter: function (els) { gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.09, overwrite: true }); }
+    });
+
+    /* ---------- v3: icons pop in with their row ---------- */
+    gsap.utils.toArray(".ibox").forEach(function (b) {
+      gsap.from(b, { scale: 0.4, rotation: -12, autoAlpha: 0, duration: 0.7, ease: "back.out(2)",
+        scrollTrigger: { trigger: b, start: "top 88%", toggleActions: "play none none none" } });
+    });
+
+    /* ---------- method: the line fills as you scroll ---------- */
+    gsap.from(".progress i", { scaleX: 0, ease: "none", scrollTrigger: { trigger: ".steps", start: "top 80%", end: "bottom 55%", scrub: true } });
+
+    /* ---------- contact ---------- */
+    gsap.from(".contact .actions > *", { y: 24, autoAlpha: 0, stagger: 0.1, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: ".contact .actions", start: "top 92%" } });
+  });
+})();
+</script>
+</body>
+</html>
