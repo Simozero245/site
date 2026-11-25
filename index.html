@@ -255,7 +255,7 @@ footer .lg small{color:var(--code)}
 /* ============ PHONE ============ */
 @media (max-width:820px){
   .nav>a:not(.pill),.nav>.pill,.top .lang{display:none}
-  .burger{display:inline-flex}
+  .burger{display:inline-flex;position:fixed;top:21px;right:var(--pad);z-index:90;box-shadow:0 6px 18px rgba(0,0,0,.18)}
   .lg img{height:28px}.lg b{font-size:17px}.lg small{display:none}
   .hero{height:max(100svh,640px)}
   .h1{top:96px;font-size:14.6vw}
@@ -624,7 +624,7 @@ function drawLens() {
   hint.style.transform = "translate(" + (L.x - hw / 2) + "px," + (L.y - r - 34) + "px)";
   hint.style.opacity = r > 40 ? 1 : 0;
 }
-function lensTick() { L.x += (L.tx - L.x) * 0.14; L.y += (L.ty - L.y) * 0.14; L.r += (L.rt - L.r) * 0.2; drawLens(); }
+function lensTick() { var k = (PHONE && !touching) ? 0.045 : 0.14; L.x += (L.tx - L.x) * k; L.y += (L.ty - L.y) * k; L.r += (L.rt - L.r) * 0.2; drawLens(); }
 L.r = 1;
 if (FINE) {
   hero.addEventListener("pointermove", function (e) { var hr = hero.getBoundingClientRect(); L.tx = e.clientX - hr.left; L.ty = e.clientY - hr.top;
@@ -634,12 +634,15 @@ if (FINE) {
 var wander = null;
 function startWander() {
   if (!PHONE || REDUCED) return;
-  var hr = hero.getBoundingClientRect(), W = hr.width, H = hr.height;
-  var p = { t: 0 };
-  wander = gsap.to(p, { t: Math.PI * 2, duration: 16, repeat: -1, ease: "none", onUpdate: function () {
-    if (touching) return;
-    L.tx = W * 0.5 + Math.sin(p.t * 2) * W * 0.22; L.ty = H * 0.57 + Math.cos(p.t) * H * 0.17;
-  } });
+  function hop() {
+    if (!touching) {
+      var hr = hero.getBoundingClientRect(), W = hr.width, H = hr.height, face = Math.random() < 0.35;
+      L.tx = face ? W * (0.4 + Math.random() * 0.2) : W * (0.18 + Math.random() * 0.64);
+      L.ty = face ? H * (0.66 + Math.random() * 0.08) : H * (0.36 + Math.random() * 0.36);
+    }
+    wander = gsap.delayedCall(1.4 + Math.random() * 1.2, hop);
+  }
+  hop();
 }
 var touching = false;
 hero.addEventListener("touchstart", function () { touching = true; }, { passive: true });
@@ -713,10 +716,11 @@ var burger = $(".burger"), mnav = $("#mnav"), lenis = null;
 function openM() { mnav.hidden = false; burger.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; lenis && lenis.stop();
   gsap.fromTo(mnav, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.6, ease: "expo.out" });
   gsap.from(".mnav nav a", { yPercent: 60, autoAlpha: 0, stagger: 0.06, duration: 0.6, ease: "power4.out", delay: 0.1 }); $(".mclose").focus(); }
-function closeM(back) { gsap.to(mnav, { clipPath: "inset(0 0 100% 0)", duration: 0.35, ease: "power3.in", onComplete: function () { mnav.hidden = true; document.body.style.overflow = ""; burger.setAttribute("aria-expanded", "false"); lenis && lenis.start(); if (back) burger.focus(); } }); }
+function closeM(back, target) { gsap.to(mnav, { clipPath: "inset(0 0 100% 0)", duration: 0.35, ease: "power3.in", onComplete: function () { mnav.hidden = true; document.body.style.overflow = ""; burger.setAttribute("aria-expanded", "false"); lenis && lenis.start(); if (back) burger.focus();
+    if (target) { var y = target.getBoundingClientRect().top + window.scrollY; if (lenis) lenis.scrollTo(y, { duration: 1.1 }); else window.scrollTo({ top: y, behavior: "smooth" }); } } }); }
 burger.addEventListener("click", openM);
 $(".mclose").addEventListener("click", function () { closeM(true); });
-$$(".mnav nav a").forEach(function (a) { a.addEventListener("click", function () { closeM(false); }); });
+$$(".mnav nav a").forEach(function (a) { a.addEventListener("click", function (e) { e.preventDefault(); e.stopImmediatePropagation(); closeM(false, $(a.getAttribute("href"))); }); });
 addEventListener("keydown", function (e) { if (e.key === "Escape" && !mnav.hidden) closeM(true); });
 $$(".lang button").forEach(function (b) { b.addEventListener("click", function () { switchLang(b.dataset.l); }); });
 function switchLang(l) {
@@ -761,7 +765,7 @@ function boot() {
       .from(".src .portrait", { yPercent: 18, autoAlpha: 0, duration: 1.1, ease: "power3.out" }, 2.3)
       .from(".src .sig-img", { clipPath: "inset(0 100% 0 0)", duration: 1.2, ease: "power2.inOut" }, 2.6)
       .from(".src .hand", { autoAlpha: 0, x: -10, duration: 0.6 }, 3.1)
-      .from(".top .wrap > *, .src .meta, .src .rot, .src .ctas", { y: 18, autoAlpha: 0, duration: 0.7, ease: "power3.out", stagger: 0.06 }, 2.5)
+      .from(".top .wrap > *, .src .meta, .src .rot, .src .ctas", { y: 18, autoAlpha: 0, duration: 0.7, ease: "power3.out", stagger: 0.06, clearProps: "transform,opacity,visibility" }, 2.5)
       .to(R_HERO, { r: R_FULL, duration: 1.1, ease: "elastic.out(1, 0.6)", onUpdate: drawLens }, 2.9)
       .add(function () { startWander(); if (PHONE) phoneCardLens(); }, 3.2)
       .add(rebuildGhost, 3.9);
