@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simo Zerouali — Des sites web, et les systèmes derrière</title>
-<meta name="description" content="Simo Zerouali, freelance à Agadir : sites web, applications, outils internes et automatisation. Français, English, العربية.">
+<meta name="description" content="Simo Zerouali, freelance à Agadir : sites web, applications, outils internes et automatisation.">
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="preload" href="assets/fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -21,7 +21,6 @@
   --pad:clamp(18px,3.9vw,56px);--ease:cubic-bezier(.2,.8,.2,1);
   --sans:Satoshi,"Helvetica Neue",Arial,sans-serif;--serif:Serif,Georgia,serif;--mono:Mono,ui-monospace,Consolas,monospace;
 }
-html[lang=ar]{--sans:"IBM Plex Sans Arabic",Satoshi,Tahoma,sans-serif;--serif:"Noto Kufi Arabic",Tahoma,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 html.lenis{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
@@ -33,7 +32,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 ::selection{background:var(--sig);color:#fff}
 :focus-visible{outline:3px solid var(--sig);outline-offset:3px}
 .it{font-family:var(--serif);font-style:italic;font-weight:400}
-html[lang=ar] .it{font-style:normal;font-weight:500}
 .mono{font-family:var(--mono)}
 .skip{position:absolute;inset-inline-start:12px;top:-70px;z-index:300;background:var(--ink);color:var(--paper);padding:12px 16px;font-weight:700}
 .skip:focus{top:12px}
@@ -53,7 +51,7 @@ html[lang=ar] .it{font-style:normal;font-weight:500}
 .pre-top{position:absolute;inset-inline:var(--pad);top:28px;display:flex;justify-content:space-between;align-items:center}
 
 /* ============ header ============ */
-.top{position:absolute;inset:0 0 auto 0;z-index:60}
+.top{position:absolute;inset:0 0 auto 0;z-index:60;background:linear-gradient(var(--paper) 62%,rgba(243,239,230,0))}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:88px;max-width:none}
 .lg{display:flex;align-items:center;gap:12px;line-height:1;min-height:44px;direction:ltr}
 .lg img{height:32px;width:auto}
@@ -62,12 +60,10 @@ html[lang=ar] .it{font-style:normal;font-weight:500}
 .nav{display:flex;align-items:center;gap:clamp(14px,2.2vw,30px);font-weight:500;font-size:15px}
 .nav>a{min-height:44px;display:inline-flex;align-items:center;position:relative}
 .nav>a:not(.pill)::after{content:"";position:absolute;inset-inline:0;bottom:8px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:var(--o,left);transition:transform .35s var(--ease)}
-html[dir=rtl] .nav>a{--o:right}
 .nav>a:not(.pill):hover::after{transform:scaleX(1)}
 .lang{display:inline-flex;align-items:center;border:1.5px solid currentColor;border-radius:999px;padding:3px;gap:2px;direction:ltr}
 .lang button{font-family:Mono,monospace;font-size:12px;min-width:36px;height:34px;padding:0 9px;border-radius:999px;transition:background .25s,color .25s}
 .lang button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
-.lang button.arb{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;font-size:13px}
 .pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;font-size:15px;position:relative;overflow:hidden;isolation:isolate;transition:color .35s}
 .pill::before{content:"";position:absolute;inset:0;border-radius:inherit;transform:translateY(101%);transition:transform .45s var(--ease);z-index:-1}
 .pill:hover::before{transform:translateY(0)}
@@ -75,7 +71,6 @@ html[dir=rtl] .nav>a{--o:right}
 .pill.sig{background:var(--sig);color:#fff}.pill.sig::before{background:var(--ink)}
 .pill.line{box-shadow:inset 0 0 0 1.5px currentColor}.pill.line::before{background:var(--ink)}.pill.line:hover{color:var(--paper)}
 .arr{display:inline-block;transition:transform .35s var(--ease)}
-html[dir=rtl] .arr{transform:scaleX(-1)}
 .burger{display:none;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--paper);align-items:center;justify-content:center}
 .mnav{position:fixed;inset:0;z-index:150;background:var(--carbon);color:var(--paper);padding:22px var(--pad);display:flex;flex-direction:column}
 .mnav[hidden]{display:none}
@@ -89,18 +84,15 @@ html[dir=rtl] .arr{transform:scaleX(-1)}
 /* ============ HERO (x-ray) ============ */
 .hero{position:relative;height:max(100svh,720px);max-height:1080px;overflow:hidden;background:var(--paper)}
 .layer{position:absolute;inset:0}
-.under{background:var(--carbon);color:var(--code);pointer-events:none}
+.under{background:var(--carbon);color:var(--code);pointer-events:none;z-index:0}
 .gridbg{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px}
-.surface{background:var(--paper);--lx:-999px;--ly:-999px;--lr:0px;
+.surface{z-index:1;background:var(--paper);--lx:-999px;--ly:-999px;--lr:0px;
   -webkit-mask-image:radial-gradient(circle at var(--lx) var(--ly),transparent var(--lr),#000 calc(var(--lr) + 1.5px));
           mask-image:radial-gradient(circle at var(--lx) var(--ly),transparent var(--lr),#000 calc(var(--lr) + 1.5px))}
 .hin{position:absolute;inset:0}
 .h1{position:absolute;inset-inline-start:var(--pad);top:clamp(118px,17vh,168px);font-size:clamp(3rem,11.6vw,174px);line-height:.88;letter-spacing:-.055em;font-weight:700;max-width:calc(100% - 2*var(--pad))}
 .h1 .it{color:var(--sig);font-size:1.05em;letter-spacing:-.03em}
-html[lang=ar] .h1{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;font-weight:800;letter-spacing:0;line-height:1.16;font-size:clamp(2.6rem,9.2vw,138px)}
-html[lang=ar] .h1 .it{font-size:1em}
 .meta{position:absolute;inset-inline-start:var(--pad);top:96px;font-family:var(--mono);font-size:12px;color:var(--mut)}
-html[lang=ar] .meta{font-family:var(--sans);font-size:13px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-inline-end:8px;animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(67,209,122,.55)}70%{box-shadow:0 0 0 9px rgba(67,209,122,0)}100%{box-shadow:0 0 0 0 rgba(67,209,122,0)}}
 .sigs{position:absolute;inset-inline-end:6vw;top:clamp(96px,12vh,120px);width:clamp(160px,17vw,250px)}
@@ -109,21 +101,26 @@ html[lang=ar] .meta{font-family:var(--sans);font-size:13px}
 .portrait{position:absolute;inset-inline-end:4.6vw;bottom:0;width:clamp(260px,32.5vw,480px);aspect-ratio:470/600}
 .portrait .arch{position:absolute;inset:auto 0 0 0;height:72%;border-radius:999px 999px 0 0;background:var(--sig)}
 .portrait img{position:absolute;inset-inline-start:50%;bottom:0;width:119%;max-width:none;transform:translateX(-50%)}
-html[dir=rtl] .portrait img{transform:translateX(50%)}
 .rot{position:absolute;inset-inline-start:var(--pad);bottom:clamp(122px,17vh,152px);font-size:clamp(1.2rem,1.8vw,1.65rem);font-weight:500}
 .rot .slot{display:inline-flex;vertical-align:bottom;background:var(--ink);color:var(--paper);padding:1px 14px;border-radius:9px;margin-inline-start:8px;overflow:hidden;height:1.5em;align-items:center}
 .rot .slot span{display:block;white-space:nowrap}
 .rot .next{display:block;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:10px}
-html[lang=ar] .rot .next{font-family:var(--sans);font-size:15px}
 .ctas{position:absolute;inset-inline-start:var(--pad);bottom:clamp(40px,6vh,58px);display:flex;gap:14px;flex-wrap:wrap}
 .lens-ring{position:absolute;left:0;top:0;border-radius:50%;pointer-events:none;border:1.5px solid var(--sig);box-shadow:0 0 0 6px rgba(255,79,26,.12),0 30px 80px rgba(0,0,0,.32);will-change:transform,width,height;z-index:5}
 .lens-hint{position:absolute;left:0;top:0;font-family:var(--mono);font-size:12px;color:var(--sig);background:var(--paper);padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:6}
-html[lang=ar] .lens-hint{font-family:var(--sans);font-size:13px}
 /* ghost (what the lens sees) */
 .ghost{color:transparent}
 .ghost .h1,.ghost .h1 .it{color:transparent;-webkit-text-stroke:1.2px #3c3c46}
 .ghost .h1 .it{-webkit-text-stroke-color:var(--sig)}
 .ghost img,.ghost .arch,.ghost .hand,.ghost .dot{visibility:hidden}
+.ghost .portrait img{visibility:visible;filter:grayscale(1) invert(1) contrast(1.55) brightness(.82) sepia(.35) hue-rotate(165deg) saturate(1.6);mix-blend-mode:screen;opacity:.92}
+.ghost .portrait::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(14,14,16,.0) 0 3px,rgba(14,14,16,.35) 3px 4px);pointer-events:none}
+.xn{display:none}
+.ghost .xn{display:block;position:absolute;inset:0;z-index:2}
+.xn span{position:absolute;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.xn i{display:block;width:9px;height:9px;border-radius:50%;background:var(--sig);box-shadow:0 0 0 4px rgba(255,79,26,.25)}
+.xn b{font-family:Mono,monospace;font-weight:400;font-size:12px;color:#F3EFE6;background:rgba(14,14,16,.85);border:1px solid var(--sig);border-radius:6px;padding:4px 8px}
+.xn .x1{left:46%;top:10%}.xn .x2{left:52%;top:33%}.xn .x3{left:50%;top:50%}.xn .x4{left:30%;top:80%}
 .ghost .pill,.ghost .slot{background:transparent!important;box-shadow:inset 0 0 0 1px #3c3c46;color:transparent}
 .ghost .meta,.ghost .rot{color:transparent}
 .xb{position:absolute;border:1.5px dashed #4a4a55;border-radius:10px;font-family:Mono,monospace;font-size:11.5px;color:#B9B4A8;padding:6px 9px;direction:ltr;text-align:left;line-height:1.3}
@@ -144,9 +141,7 @@ html[lang=ar] .lens-hint{font-family:var(--sans);font-size:13px}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(30px,4vw,64px)}
 .sec-t{font-size:clamp(3rem,8.4vw,128px);line-height:.9;letter-spacing:-.05em;font-weight:700}
 .sec-t .it{color:var(--sig);font-size:1.06em}
-html[lang=ar] .sec-t{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-spacing:0;line-height:1.2;font-size:clamp(2.4rem,6.4vw,96px)}
 .sec-n{font-family:var(--mono);font-size:13px;color:var(--mut);line-height:1.8;text-align:end}
-html[lang=ar] .sec-n{font-family:var(--sans)}
 .hz{direction:ltr}
 .track{display:flex;gap:28px;padding-inline:var(--pad);width:max-content;will-change:transform}
 .card{width:min(43vw,640px);flex:none;display:block}
@@ -160,7 +155,6 @@ html[lang=ar] .sec-n{font-family:var(--sans)}
 .stat b{font-family:Serif,serif;font-style:italic;font-weight:400;font-size:clamp(8rem,16vw,230px);line-height:.75;letter-spacing:-.03em;direction:ltr;text-align:start}
 .stat b i{font-family:Satoshi;font-style:normal;font-weight:700;font-size:.35em;color:var(--sig);vertical-align:top}
 .stat>span:not(.tag){font-family:var(--mono);font-size:13px;color:var(--code);margin-top:14px}
-html[lang=ar] .stat>span:not(.tag){font-family:var(--sans)}
 .diag svg{position:absolute;inset:0;width:100%;height:100%}
 .diag rect{fill:var(--carbon2);stroke:#3a3a44;stroke-width:2}
 .diag .acc rect{fill:var(--sig);stroke:var(--sig)}
@@ -169,18 +163,14 @@ html[lang=ar] .stat>span:not(.tag){font-family:var(--sans)}
 .diag text.s{font-size:11px;fill:var(--code)}.diag .acc text.s{fill:#fff}
 .diag .l{stroke:var(--sig);stroke-width:2;fill:none}
 .diag .chip rect{fill:var(--paper);stroke:var(--paper)}.diag .chip text{fill:var(--ink);font-size:13px}
-.cm{display:flex;gap:18px;margin-top:18px;align-items:flex-start;direction:var(--dir,ltr)}
-html[dir=rtl] .cm{--dir:rtl}
+.cm{display:flex;gap:18px;margin-top:18px;align-items:flex-start}
 .cm .n{font-family:Serif,serif;font-style:italic;font-size:54px;line-height:.8;color:var(--sig)}
 .cm h3{font-size:clamp(1.3rem,1.9vw,1.75rem);line-height:1.06;letter-spacing:-.03em}
-html[lang=ar] .cm h3{letter-spacing:0;line-height:1.35}
 .cm .role{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:6px;letter-spacing:.02em}
-html[lang=ar] .cm .role{font-family:var(--sans);font-size:13px}
 .cm p{font-size:15px;color:#4a463f;margin-top:8px;max-width:46ch}
 .cm .res{font-weight:700;color:var(--ink)}
 .card.cta .cv{background:var(--sig);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,2.6vw,38px)}
 .card.cta h3{font-size:clamp(2.6rem,5vw,5.4rem);line-height:.92;letter-spacing:-.05em}
-html[lang=ar] .card.cta h3{letter-spacing:0;line-height:1.25;font-family:"Noto Kufi Arabic",Tahoma,sans-serif}
 .card.cta[dir=rtl] .cv{text-align:right}
 .hz-bar{height:2px;background:rgba(18,18,18,.12);margin:clamp(24px,3vw,40px) var(--pad) 0}
 .hz-bar i{display:block;height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0)}
@@ -200,12 +190,10 @@ html[lang=ar] .card.cta h3{letter-spacing:0;line-height:1.25;font-family:"Noto K
 .tb .big{font-family:Serif,serif;font-style:italic;font-size:clamp(5.5rem,10vw,150px);line-height:.85;color:var(--paper);margin:14px 0 6px;font-variant-numeric:tabular-nums}
 .tb .big small{font-family:Satoshi;font-style:normal;font-weight:700;font-size:.32em;color:var(--sig);margin-left:.05em}
 .tb .out{color:#c9c4b8;min-height:1.7em}
-html[lang=ar] .tb .out{font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;direction:rtl;text-align:right}
 .caret{display:inline-block;width:9px;height:17px;background:var(--paper);vertical-align:-3px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .side h2{font-size:clamp(2.8rem,6vw,88px);line-height:.92;letter-spacing:-.05em}
 .side h2 .it{color:var(--sig);font-size:1.05em}
-html[lang=ar] .side h2{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-spacing:0;line-height:1.25;font-size:clamp(2.2rem,4.6vw,68px)}
 .side p{color:var(--code);font-size:17px;margin-top:18px;max-width:40ch}
 
 /* ============ SERVICES ============ */
@@ -219,7 +207,6 @@ html[lang=ar] .side h2{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-s
 .sv .n{font-family:Serif,serif;font-style:italic;font-size:clamp(2.6rem,4vw,64px);line-height:.8}
 .sv:nth-child(1) .n,.sv:nth-child(3) .n{color:var(--sig)}
 .sv h3{font-size:clamp(2rem,4.4vw,68px);line-height:.95;letter-spacing:-.045em}
-html[lang=ar] .sv h3{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-spacing:0;line-height:1.3}
 .sv ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .sv li{box-shadow:inset 0 0 0 1.5px currentColor;border-radius:999px;padding:6px 13px;font-size:13px;font-weight:500}
 .sv p{font-size:clamp(1rem,1.3vw,1.15rem);max-width:40ch;align-self:end}
@@ -229,7 +216,6 @@ html[lang=ar] .sv h3{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-spa
 .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px)}
 .step{border-top:1.5px solid rgba(18,18,18,.2);padding-top:18px;position:relative}
 .step::before{content:"";position:absolute;inset-inline-start:0;top:-1.5px;height:1.5px;width:100%;background:var(--sig);transform:scaleX(var(--p,0));transform-origin:var(--o,left)}
-html[dir=rtl] .step::before{--o:right}
 .step .n{font-family:Serif,serif;font-style:italic;font-size:clamp(3rem,6vw,88px);line-height:.85;color:var(--sig)}
 .step h3{font-size:1.24rem;line-height:1.18;margin:14px 0 8px}
 .step p{color:#4a463f;font-size:.98rem}
@@ -244,15 +230,12 @@ html[dir=rtl] .step::before{--o:right}
 .tools{border-top:1.5px solid var(--ink)}
 .tools div{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:14px;padding:13px 0;border-bottom:1px solid rgba(18,18,18,.15);font-size:.98rem}
 .tools span:first-child{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
-html[lang=ar] .tools span:first-child{font-family:var(--sans);text-transform:none;font-size:14px}
 
 /* ============ CONTACT ============ */
 .contact{background:var(--sig);color:#fff;padding-block:clamp(60px,8vw,110px) clamp(40px,5vw,70px);overflow:hidden}
 .contact .top-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;gap:16px;flex-wrap:wrap}
-html[lang=ar] .contact .top-row{font-family:var(--sans)}
 .contact h2{font-size:clamp(4rem,14vw,200px);line-height:.85;letter-spacing:-.055em;font-weight:700;margin-top:18px}
 .contact h2 .it{font-size:1.05em;letter-spacing:-.03em}
-html[lang=ar] .contact h2{font-family:"Noto Kufi Arabic",Tahoma,sans-serif;letter-spacing:0;line-height:1.25;font-size:clamp(3rem,10vw,150px)}
 .contact .row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:clamp(24px,3vw,44px)}
 .contact .row p{max-width:42ch;font-size:1.12rem}
 .contact .pill.dark{min-height:60px;padding:0 28px;font-size:17px}
@@ -269,14 +252,11 @@ footer .lg small{color:var(--code)}
   .lg img{height:28px}.lg b{font-size:17px}.lg small{display:none}
   .hero{height:max(100svh,640px)}
   .h1{top:96px;font-size:14.6vw}
-  html[lang=ar] .h1{font-size:11.6vw;top:92px}
   .meta{display:none}
   .portrait{inset-inline-end:auto;inset-inline-start:50%;transform:translateX(-50%);width:min(74vw,340px);bottom:0}
-  html[dir=rtl] .portrait{transform:translateX(50%)}
   .sigs{inset-inline:4vw;top:auto;bottom:calc(min(74vw,340px)*1.277 - 96px);width:auto;height:90px}
   .sigs img{position:absolute;inset-inline-start:0;bottom:0;width:27vw}
   .sigs .hand{position:absolute;inset-inline-end:0;bottom:6px;font-size:13vw;margin:0}
-  html[dir=rtl] .sigs .hand{left:0;right:auto}
   .hero .rot,.hero .ctas{display:none}
   .hero-after{display:block;padding:26px var(--pad) 10px;background:var(--paper)}
   .hero-after .rot,.hero-after .ctas{position:static}
@@ -323,7 +303,7 @@ footer .lg small{color:var(--code)}
     <a href="#about"><span>03</span><span style="font:inherit;color:inherit" data-t="nav3">À propos</span></a>
     <a href="#contact"><span>04</span><span style="font:inherit;color:inherit" data-t="nav4">Contact</span></a>
   </nav>
-  <div class="lang" role="group" aria-label="Langue"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="ar" class="arb">ع</button></div>
+  <div class="lang" role="group" aria-label="Langue"><button data-l="fr">FR</button><button data-l="en">EN</button></div>
 </div>
 
 <main id="main" tabindex="-1">
@@ -346,19 +326,6 @@ footer .lg small{color:var(--code)}
     <div class="wire w1" aria-hidden="true"></div>
   </div>
   <div class="layer surface">
-    <header class="top">
-      <div class="wrap">
-        <a class="lg" href="#main" aria-label="Simo Zerouali"><img src="assets/img/sig_z_noir.webp" alt=""><span><b>Simo Zerouali</b><small>SITES · APPS · SYSTÈMES</small></span></a>
-        <nav class="nav" aria-label="Navigation">
-          <a href="#work" data-t="nav1">Travaux</a>
-          <a href="#services" data-t="nav2">Services</a>
-          <a href="#about" data-t="nav3">À propos</a>
-          <div class="lang" role="group" aria-label="Langue"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="ar" class="arb">ع</button></div>
-          <a class="pill dark" href="https://wa.me/212615665074" target="_blank" rel="noopener"><span data-t="cta_top">Discutons</span><span class="arr">↗</span></a>
-          <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" data-t-aria="open"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
-        </nav>
-      </div>
-    </header>
     <div class="hin src">
       <p class="meta" data-xr="status · Africa/Casablanca"><span class="dot"></span><span data-t="meta">Disponible · réponse sous 24 h · Agadir, à distance</span></p>
       <h1 class="h1" id="h1" data-xr="h1 · 174px · -0.055em">
@@ -367,11 +334,24 @@ footer .lg small{color:var(--code)}
         <span class="ln"><span data-t="h1c">derrière.</span></span>
       </h1>
       <div class="sigs" data-xr="signature · hand-drawn"><img src="assets/img/signature_noire.webp" alt="" class="sig-img"><span class="hand">Simo</span></div>
-      <div class="portrait" data-xr="img.portrait · webp · 38 Ko" data-xrs="1"><div class="arch"></div><img src="assets/img/simo.webp" alt="Portrait de Simo Zerouali" data-t-alt="portrait_alt"></div>
+      <div class="portrait" data-xr="img.portrait · webp · 38 Ko" data-xrs="1"><div class="arch"></div><img src="assets/img/simo.webp" alt="Portrait de Simo Zerouali" data-t-alt="portrait_alt"><div class="xn" aria-hidden="true"><span class="x1"><i></i><b data-t="xn1">cerveau → Python · JavaScript · SQL</b></span><span class="x2"><i></i><b data-t="xn2">lunettes → l'œil pour le détail</b></span><span class="x3"><i></i><b data-t="xn3">sourire → réponse sous 24 h</b></span><span class="x4"><i></i><b data-t="xn4">costume → livraison sérieuse</b></span></div></div>
       <p class="rot" data-xr="span.word · rotate 2.4s"><span data-t="rot_pre">Je construis</span><span class="slot"><span class="slot-w">des applications</span></span><span class="next" data-t="rot_next">→ des sites · des boutiques en ligne · des outils internes · des automatisations</span></p>
       <div class="ctas" data-xr="a.btn → wa.me/212…"><a class="pill sig" href="https://wa.me/212615665074" target="_blank" rel="noopener"><span data-t="cta1">Parlons de votre projet</span><span class="arr">↗</span></a><a class="pill line" href="#work" data-t="cta2">Voir les travaux</a></div>
     </div>
   </div>
+  <header class="top">
+      <div class="wrap">
+        <a class="lg" href="#main" aria-label="Simo Zerouali"><img src="assets/img/sig_z_noir.webp" alt=""><span><b>Simo Zerouali</b><small>SITES · APPS · SYSTÈMES</small></span></a>
+        <nav class="nav" aria-label="Navigation">
+          <a href="#work" data-t="nav1">Travaux</a>
+          <a href="#services" data-t="nav2">Services</a>
+          <a href="#about" data-t="nav3">À propos</a>
+          <div class="lang" role="group" aria-label="Langue"><button data-l="fr">FR</button><button data-l="en">EN</button></div>
+          <a class="pill dark" href="https://wa.me/212615665074" target="_blank" rel="noopener"><span data-t="cta_top">Discutons</span><span class="arr">↗</span></a>
+          <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" data-t-aria="open"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+        </nav>
+      </div>
+  </header>
   <div class="lens-ring" aria-hidden="true"></div>
   <div class="lens-hint" aria-hidden="true" data-t="hint">rayon X : le système derrière la page ↓</div>
 </section>
@@ -488,7 +468,7 @@ footer .lg small{color:var(--code)}
       <div><span>Back-end</span><span>Python, Flask, FastAPI, REST API</span></div>
       <div><span data-t="tool3">Données</span><span>SQL, Pandas, ETL, scraping</span></div>
       <div><span data-t="tool4">Automatisation</span><span>Playwright, Make, n8n, Zapier</span></div>
-      <div><span data-t="tool5">Langues</span><span data-t="tool5v">Français, English, العربية</span></div>
+      <div><span data-t="tool5">Langues</span><span data-t="tool5v">Français, English, arabe</span></div>
     </div>
   </div>
 </section>
@@ -528,7 +508,7 @@ fr:{skip:"Aller au contenu",see:"Voir",close:"Fermer le menu",open:"Ouvrir le me
  pre1:"chargement du site",pre2:"chargement du système",pre3:"branchement",
  meta:"Disponible · réponse sous 24 h · Agadir, à distance",h1a:"Des sites web,",h1b:"et les systèmes",h1c:"derrière.",
  rot_pre:"Je construis",words:["des applications","des sites web","des boutiques en ligne","des outils internes","des automatisations"],rot_next:"→ des sites · des boutiques en ligne · des outils internes · des automatisations",
- cta1:"Parlons de votre projet",cta2:"Voir les travaux",hint:"rayon X : le système derrière la page ↓",hint_m:"touchez pour guider la loupe",portrait_alt:"Portrait de Simo Zerouali",
+ cta1:"Parlons de votre projet",cta2:"Voir les travaux",hint:"rayon X : le système derrière la page ↓",hint_m:"touchez pour guider la loupe",portrait_alt:"Portrait de Simo Zerouali",xn1:"cerveau → Python · JavaScript · SQL",xn2:"lunettes → l'œil pour le détail",xn3:"sourire → réponse sous 24 h",xn4:"costume → livraison sérieuse",
  code_c:"// ce que vos clients ne voient pas",
  work_a:"Travaux",work_b:"& coulisses",work_n:"05 projets<br>← glissez →<br>survol = rayon X",work_n_m:"05 projets",
  c1_t:"Danialand, parc de loisirs",c1_r:"Intégration de contenu, au sein de l'équipe",c1_d:"WordPress et WooCommerce avec réservation en ligne, en trois langues.",
@@ -545,13 +525,13 @@ fr:{skip:"Aller au contenu",see:"Voir",close:"Fermer le menu",open:"Ouvrir le me
  s4_t:"Automatisation",s4_l:["Données","Documents","Rapports"],s4_p:"Les données circulent, les documents et les rapports se génèrent tout seuls.",
  m_a:"Sans surprise,",m_b:"en 4 étapes.",m1_t:"Un appel gratuit de 30 minutes",m1_p:"Vous m'expliquez le besoin, je vous dis ce qui est faisable.",m2_t:"Un périmètre écrit, à prix fixe",m2_p:"Ce qui est inclus, le délai et le prix, avant de commencer.",m3_t:"Une démo rapide",m3_p:"Vous voyez tôt quelque chose qui marche, et on ajuste ensemble.",m4_t:"La livraison, avec support",m4_p:"Vous repartez autonome, et je reste joignable après la mise en ligne.",
  ab_a:"Arrivé au code",ab_b:"par un autre chemin.",ab_p1:"J'ai étudié l'économie et la gestion, puis j'ai passé deux ans à faire tourner une plateforme nationale pour un opérateur télécom. C'est là que j'ai vu ce qui coûte vraiment du temps dans une entreprise.",ab_p2:"Ensuite je suis passé à la construction : Python d'abord, puis le web et les applications. Je travaille à distance, en français, en anglais ou en arabe.",
- tool3:"Données",tool4:"Automatisation",tool5:"Langues",tool5v:"Français, English, العربية",
+ tool3:"Données",tool4:"Automatisation",tool5:"Langues",tool5v:"Français, anglais, arabe",
  ct_k:"05 · contact",ct_av:"disponible",ct_a:"On en",ct_b:"parle ?",ct_p:"Dites-moi quelle tâche vous coûte le plus de temps. Je vous réponds sous 24 heures.",ct_wa:"Écrire sur WhatsApp",ft:"à distance",top:"Retour en haut ↑",title:"Simo Zerouali — Des sites web, et les systèmes derrière"},
 en:{skip:"Skip to content",see:"View",close:"Close menu",open:"Open menu",nav1:"Work",nav2:"Services",nav3:"About",nav4:"Contact",cta_top:"Let's talk",
  pre1:"loading the site",pre2:"loading the system",pre3:"connecting",
  meta:"Available · replies within 24 h · Agadir, remote",h1a:"Websites,",h1b:"and the systems",h1c:"behind them.",
  rot_pre:"I build",words:["apps","websites","online stores","internal tools","automations"],rot_next:"→ websites · online stores · internal tools · automations",
- cta1:"Tell me about your project",cta2:"See the work",hint:"x-ray: the system behind the page ↓",hint_m:"touch to steer the lens",portrait_alt:"Portrait of Simo Zerouali",
+ cta1:"Tell me about your project",cta2:"See the work",hint:"x-ray: the system behind the page ↓",hint_m:"touch to steer the lens",portrait_alt:"Portrait of Simo Zerouali",xn1:"brain → Python · JavaScript · SQL",xn2:"glasses → an eye for detail",xn3:"smile → reply within 24 h",xn4:"suit → serious delivery",
  code_c:"// what your clients never see",
  work_a:"Work",work_b:"& backstage",work_n:"05 projects<br>← drag →<br>hover = x-ray",work_n_m:"05 projects",
  c1_t:"Danialand, leisure park",c1_r:"Content integration, as part of the team",c1_d:"WordPress and WooCommerce with online booking, in three languages.",
@@ -568,31 +548,8 @@ en:{skip:"Skip to content",see:"View",close:"Close menu",open:"Open menu",nav1:"
  s4_t:"Automation",s4_l:["Data","Documents","Reports"],s4_p:"Data flows on its own, documents and reports generate themselves.",
  m_a:"No surprises,",m_b:"in 4 steps.",m1_t:"A free 30-minute call",m1_p:"You explain the need, I tell you what's doable.",m2_t:"A written scope, at a fixed price",m2_p:"What's included, the timeline and the price, before we start.",m3_t:"A quick demo",m3_p:"You see something working early, and we adjust together.",m4_t:"Delivery, with support",m4_p:"You leave independent, and I stay reachable after launch.",
  ab_a:"I came to code",ab_b:"the long way round.",ab_p1:"I studied economics and management, then spent two years running a national platform for a telecom operator. That's where I saw what really costs a business time.",ab_p2:"Then I moved to building: Python first, then the web and apps. I work remotely, in French, English or Arabic.",
- tool3:"Data",tool4:"Automation",tool5:"Languages",tool5v:"Français, English, العربية",
- ct_k:"05 · contact",ct_av:"available",ct_a:"Shall we",ct_b:"talk?",ct_p:"Tell me which task costs you the most time. I'll reply within 24 hours.",ct_wa:"Message me on WhatsApp",ft:"remote",top:"Back to top ↑",title:"Simo Zerouali — Websites, and the systems behind them"},
-ar:{skip:"انتقل إلى المحتوى",see:"شاهد",close:"إغلاق القائمة",open:"فتح القائمة",nav1:"الأعمال",nav2:"الخدمات",nav3:"من أنا",nav4:"تواصل",cta_top:"تواصل معي",
- pre1:"تحميل الموقع",pre2:"تحميل النظام",pre3:"الربط",
- meta:"متاح · الرد خلال 24 ساعة · أكادير، عن بُعد",h1a:"مواقع ويب،",h1b:"والأنظمة",h1c:"التي خلفها.",
- rot_pre:"أبني",words:["تطبيقات","مواقع ويب","متاجر إلكترونية","أدوات داخلية","أتمتة المهام"],rot_next:"← مواقع · متاجر إلكترونية · أدوات داخلية · أتمتة",
- cta1:"لنتحدث عن مشروعك",cta2:"شاهد الأعمال",hint:"أشعة إكس: النظام خلف الصفحة ↓",hint_m:"المس لتحريك العدسة",portrait_alt:"صورة سيمو زروالي",
- code_c:"// what your clients never see",
- work_a:"الأعمال",work_b:"وما خلفها",work_n:"5 مشاريع<br>اسحب للتصفح<br>مرّر = أشعة إكس",work_n_m:"5 مشاريع",
- c1_t:"دانيالاند، منتزه ترفيهي",c1_r:"إدماج المحتوى ضمن الفريق",c1_d:"ووردبريس وووكومرس مع حجز عبر الإنترنت، بثلاث لغات.",
- c2_tag:"تطبيق مكتبي · ماك",c2_s:"من الصور تمّ تتبّعها في نهائي مصوَّر بدقة 1080p60",c2_t:"تحليل الفيديو لمدرب جمباز",c2_r:"مهمة مستقلة · تصميم وتطوير",c2_d:"يتتبّع لاعبة محددة بين عدة أشخاص، مباشرة أو من فيديو، على جهاز ماك الخاص بالعميل.",
- c3_t:"دير يديك، منصة التطوع من إنوي",c3_r:"إدارة المحتوى ونظام CMS، وليس التطوير الأصلي",c3_d:"منصة دروبال بثلاث لغات تربط المتطوعين بالجمعيات.",c3_res:"أكثر من 70 000 مستخدم.",
- c4_tag:"معالجة البيانات · سرّي",c4_chip:"1–2 days → < 30 min",c4_t:"أداة داخلية لشركة SaaS",c4_r:"مهمة طويلة المدى · معالجة البيانات",c4_d:"يجمع كتالوج المنتجات كاملاً، ويفرز الصور، ويجهّز ملف الاستيراد.",c4_res:"أسرع بحوالي 40 مرة من العمل اليدوي.",
- c5_k:"05 · التالي",c5_t:"مشروعك هنا؟",c5_b:"لنتحدث",
- st_a:"العمل،",st_b:"بالأرقام.",st_p:"اختر أمرًا: يُكتب الرقم كما في طرفية حقيقية. كل رقم من مشروع حقيقي.",
- term:["من الصور تمّ تتبّعها في نهائي جمباز بدقة 1080p60","أسرع من العمل اليدوي لإدخال كتالوج","شخص استعملوا منصة دير يديك","ساعة كحد أقصى للرد عليك"],
- sv_a:"ما",sv_b:"أبنيه.",sv_n:"4 خدمات",
- s1_t:"مواقع ومتاجر",s1_l:["حسب الطلب","ووردبريس","شوبيفاي"],s1_p:"مواقع تعريفية ومتاجر إلكترونية، مصممة ليجدها الزوار ويتحولوا إلى زبائن.",
- s2_t:"تطبيقات",s2_l:["ويب","هاتف","لوحة إدارة"],s2_p:"تطبيقات ويب وهاتف، من الفكرة إلى الإطلاق، مع لوحة الإدارة الخاصة بها.",
- s3_t:"أدوات داخلية",s3_l:["لوحات تحكم","إدارة","بيانات"],s3_p:"لوحات تحكم وأنظمة إدارة مصممة حسب طريقة عملك، لا العكس.",
- s4_t:"الأتمتة",s4_l:["بيانات","مستندات","تقارير"],s4_p:"البيانات تنتقل وحدها، والمستندات والتقارير تُنشأ تلقائيًا.",
- m_a:"بدون مفاجآت،",m_b:"في 4 خطوات.",m1_t:"مكالمة مجانية لمدة 30 دقيقة",m1_p:"تشرح حاجتك، وأخبرك بما هو ممكن.",m2_t:"نطاق مكتوب بسعر ثابت",m2_p:"ما يشمله العمل، والمدة، والسعر، قبل البدء.",m3_t:"عرض أولي سريع",m3_p:"ترى بسرعة شيئًا يعمل، ونعدّله معًا.",m4_t:"التسليم مع الدعم",m4_p:"تستلم كل شيء وتبقى على تواصل معي بعد الإطلاق.",
- ab_a:"وصلت إلى البرمجة",ab_b:"من طريق آخر.",ab_p1:"درست الاقتصاد والتسيير، ثم أدرت لمدة سنتين منصة وطنية لمشغّل اتصالات. هناك رأيت ما يستهلك الوقت فعلًا في الشركات.",ab_p2:"بعدها انتقلت إلى البناء: بايثون أولًا، ثم الويب والتطبيقات. أعمل عن بُعد بالعربية والفرنسية والإنجليزية.",
- tool3:"البيانات",tool4:"الأتمتة",tool5:"اللغات",tool5v:"العربية، Français، English",
- ct_k:"05 · تواصل",ct_av:"متاح",ct_a:"هل",ct_b:"نتحدث؟",ct_p:"أخبرني ما المهمة التي تأخذ منك أكبر وقت. أرد عليك خلال 24 ساعة.",ct_wa:"راسلني على واتساب",ft:"عن بُعد",top:"العودة إلى الأعلى ↑",title:"سيمو زروالي — مواقع ويب، والأنظمة التي خلفها"}
+ tool3:"Data",tool4:"Automation",tool5:"Languages",tool5v:"French, English, Arabic",
+ ct_k:"05 · contact",ct_av:"available",ct_a:"Shall we",ct_b:"talk?",ct_p:"Tell me which task costs you the most time. I'll reply within 24 hours.",ct_wa:"Message me on WhatsApp",ft:"remote",top:"Back to top ↑",title:"Simo Zerouali — Websites, and the systems behind them"}
 };
 
 /* ================= LANGUAGE ================= */
@@ -602,17 +559,9 @@ function pickLang() {
   try { var s = localStorage.getItem("lang"); if (s && T[s]) return s; } catch (e) {}
   var n = (navigator.language || "fr").slice(0, 2); return T[n] ? n : "fr";
 }
-var arFontsLoaded = false;
-function loadArFonts() {
-  if (arFontsLoaded) return Promise.resolve(); arFontsLoaded = true;
-  var l = document.createElement("link"); l.rel = "stylesheet";
-  l.href = "https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap";
-  document.head.appendChild(l);
-  return new Promise(function (res) { l.onload = function () { document.fonts.ready.then(res); }; l.onerror = res; setTimeout(res, 2500); });
-}
 function applyLang(l) {
   LANG = l; var d = T[l];
-  document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+  document.documentElement.lang = l; document.documentElement.dir = "ltr";
   document.title = d.title;
   $$("[data-t]").forEach(function (el) { var k = el.getAttribute("data-t"); if (d[k] != null) el.textContent = d[k]; });
   $$("[data-t-html]").forEach(function (el) { var k = el.getAttribute("data-t-html"); el.innerHTML = (PHONE && d[k + "_m"]) ? d[k + "_m"] : d[k]; });
@@ -632,7 +581,7 @@ tick(); setInterval(tick, 20000);
 
 /* ================= HERO X-RAY ================= */
 var hero = $(".hero"), surface = $(".surface"), ghost = $(".ghost"), src = $(".hin.src"), xbs = $(".xbs"), ring = $(".lens-ring"), hint = $(".lens-hint");
-var L = { x: 0, y: 0, r: 0, tx: 0, ty: 0 }, R_FULL = PHONE ? 88 : 200, R_HERO = { r: 0 };
+var L = { x: 0, y: 0, r: 0, tx: 0, ty: 0, rt: 1 }, R_FULL = PHONE ? 88 : 200, R_HERO = { r: 0 };
 function rebuildGhost() {
   ghost.innerHTML = src.innerHTML;
   $$("[id]", ghost).forEach(function (e) { e.removeAttribute("id"); });
@@ -651,9 +600,8 @@ function rebuildGhost() {
 }
 function homeLens() {
   var hr = hero.getBoundingClientRect();
-  var rtl = document.documentElement.dir === "rtl";
   if (PHONE) { L.tx = hr.width * 0.5; L.ty = hr.height * 0.43; }
-  else { L.tx = hr.width * (rtl ? 0.41 : 0.59); L.ty = hr.height * 0.53; }
+  else { L.tx = hr.width * 0.59; L.ty = hr.height * 0.53; }
 }
 function drawLens() {
   var r = L.r * R_HERO.r;
@@ -665,20 +613,21 @@ function drawLens() {
   hint.style.transform = "translate(" + (L.x - hw / 2) + "px," + (L.y - r - 34) + "px)";
   hint.style.opacity = r > 40 ? 1 : 0;
 }
-function lensTick() { L.x += (L.tx - L.x) * 0.14; L.y += (L.ty - L.y) * 0.14; drawLens(); }
+function lensTick() { L.x += (L.tx - L.x) * 0.14; L.y += (L.ty - L.y) * 0.14; L.r += (L.rt - L.r) * 0.2; drawLens(); }
 L.r = 1;
 if (FINE) {
-  hero.addEventListener("pointermove", function (e) { var hr = hero.getBoundingClientRect(); L.tx = e.clientX - hr.left; L.ty = e.clientY - hr.top; });
-  hero.addEventListener("pointerleave", homeLens);
+  hero.addEventListener("pointermove", function (e) { var hr = hero.getBoundingClientRect(); L.tx = e.clientX - hr.left; L.ty = e.clientY - hr.top;
+    L.rt = e.target.closest("a,button,.lang,.top") ? 0 : 1; });
+  hero.addEventListener("pointerleave", function () { L.rt = 1; homeLens(); });
 }
 var wander = null;
 function startWander() {
   if (!PHONE || REDUCED) return;
   var hr = hero.getBoundingClientRect(), W = hr.width, H = hr.height;
   var p = { t: 0 };
-  wander = gsap.to(p, { t: Math.PI * 2, duration: 14, repeat: -1, ease: "none", onUpdate: function () {
+  wander = gsap.to(p, { t: Math.PI * 2, duration: 16, repeat: -1, ease: "none", onUpdate: function () {
     if (touching) return;
-    L.tx = W * 0.5 + Math.cos(p.t) * W * 0.24; L.ty = H * 0.43 + Math.sin(p.t * 2) * H * 0.045;
+    L.tx = W * 0.5 + Math.sin(p.t * 2) * W * 0.22; L.ty = H * 0.57 + Math.cos(p.t) * H * 0.17;
   } });
 }
 var touching = false;
@@ -761,7 +710,7 @@ addEventListener("keydown", function (e) { if (e.key === "Escape" && !mnav.hidde
 $$(".lang button").forEach(function (b) { b.addEventListener("click", function () { switchLang(b.dataset.l); }); });
 function switchLang(l) {
   if (l === LANG) return;
-  (l === "ar" ? loadArFonts() : Promise.resolve()).then(function () {
+  Promise.resolve().then(function () {
     gsap.to("main, .top", { autoAlpha: 0, duration: 0.2, onComplete: function () {
       applyLang(l); showStat(cur_k, true);
       requestAnimationFrame(function () { rebuildGhost(); homeLens(); ScrollTrigger.refresh(); gsap.to("main, .top", { autoAlpha: 1, duration: 0.35 }); });
@@ -771,7 +720,7 @@ function switchLang(l) {
 
 /* ================= BOOT ================= */
 var first = pickLang();
-(first === "ar" ? loadArFonts() : Promise.resolve()).then(function () { return document.fonts.ready; }).then(boot);
+Promise.resolve().then(function () { return document.fonts.ready; }).then(boot);
 
 function boot() {
   applyLang(first);
