@@ -113,14 +113,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .ghost .h1,.ghost .h1 .it{color:transparent;-webkit-text-stroke:1.2px #3c3c46}
 .ghost .h1 .it{-webkit-text-stroke-color:var(--sig)}
 .ghost img,.ghost .arch,.ghost .hand,.ghost .dot{visibility:hidden}
-.ghost .portrait img{visibility:visible;filter:grayscale(1) invert(1) contrast(1.55) brightness(.82) sepia(.35) hue-rotate(165deg) saturate(1.6);mix-blend-mode:screen;opacity:.92}
-.ghost .portrait::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(14,14,16,.0) 0 3px,rgba(14,14,16,.35) 3px 4px);pointer-events:none}
-.xn{display:none}
-.ghost .xn{display:block;position:absolute;inset:0;z-index:2}
-.xn span{position:absolute;display:flex;align-items:center;gap:8px;white-space:nowrap}
-.xn i{display:block;width:9px;height:9px;border-radius:50%;background:var(--sig);box-shadow:0 0 0 4px rgba(255,79,26,.25)}
-.xn b{font-family:Mono,monospace;font-weight:400;font-size:12px;color:#F3EFE6;background:rgba(14,14,16,.85);border:1px solid var(--sig);border-radius:6px;padding:4px 8px}
-.xn .x1{left:46%;top:10%}.xn .x2{left:52%;top:33%}.xn .x3{left:50%;top:50%}.xn .x4{left:30%;top:80%}
+.ghost .portrait img{visibility:visible;z-index:2}
+.ws{display:none}
+.ghost .ws{display:block;position:absolute;inset:-6% -8% 0 -8%;z-index:1;background:radial-gradient(120% 80% at 50% 30%,#23232a 0,#121216 70%)}
+.ws-win{position:absolute;left:4%;right:4%;top:6%;height:52%;background:#17171B;border:1px solid #33333c;border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.ws-bar{height:26px;display:flex;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #2b2b32}
+.ws-bar i{width:8px;height:8px;border-radius:50%;background:#3a3a42}.ws-bar i:first-child{background:var(--sig)}
+.ws-bar span{margin-left:8px;font-family:Mono,monospace;font-size:10px;color:#8C8C96}
+.ws-win pre{margin:0;padding:10px 12px;font-family:Mono,monospace;font-size:11.5px;line-height:1.75;color:#C8C3B6;white-space:pre}
+.ws-win .k{color:var(--sig)}.ws-win .c{color:#55555E}.ws-win .ok{color:var(--ok)}
+.ws-note{position:absolute;width:30%;padding:10px 10px 14px;font-family:Hand,cursive;font-size:17px;line-height:1.1;color:#121212;background:#F3EFE6;box-shadow:0 8px 18px rgba(0,0,0,.35)}
+.ws-note::before{content:"";position:absolute;left:50%;top:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--sig)}
+.ws-note.n-a{right:3%;top:44%;transform:rotate(4deg)}
+.ws-note.n-b{left:2%;top:50%;transform:rotate(-5deg);background:#FFD9C9}
+.ws-mug{position:absolute;right:6%;top:64%;width:15%}
+.ws-lamp{position:absolute;left:50%;top:-10%;width:70%;height:40%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,200,150,.18),transparent);pointer-events:none}
 .ghost .pill,.ghost .slot{background:transparent!important;box-shadow:inset 0 0 0 1px #3c3c46;color:transparent}
 .ghost .meta,.ghost .rot{color:transparent}
 .xb{position:absolute;border:1.5px dashed #4a4a55;border-radius:10px;font-family:Mono,monospace;font-size:11.5px;color:#B9B4A8;padding:6px 9px;direction:ltr;text-align:left;line-height:1.3}
@@ -334,7 +341,11 @@ footer .lg small{color:var(--code)}
         <span class="ln"><span data-t="h1c">derrière.</span></span>
       </h1>
       <div class="sigs" data-xr="signature · hand-drawn"><img src="assets/img/signature_noire.webp" alt="" class="sig-img"><span class="hand">Simo</span></div>
-      <div class="portrait" data-xr="img.portrait · webp · 38 Ko" data-xrs="1"><div class="arch"></div><img src="assets/img/simo.webp" alt="Portrait de Simo Zerouali" data-t-alt="portrait_alt"><div class="xn" aria-hidden="true"><span class="x1"><i></i><b data-t="xn1">cerveau → Python · JavaScript · SQL</b></span><span class="x2"><i></i><b data-t="xn2">lunettes → l'œil pour le détail</b></span><span class="x3"><i></i><b data-t="xn3">sourire → réponse sous 24 h</b></span><span class="x4"><i></i><b data-t="xn4">costume → livraison sérieuse</b></span></div></div>
+      <div class="portrait" data-xr="img.portrait · webp · 38 Ko" data-xrs="1"><div class="arch"></div><img src="assets/img/simo.webp" alt="Portrait de Simo Zerouali" data-t-alt="portrait_alt"><div class="ws" aria-hidden="true"><div class="ws-win"><div class="ws-bar"><i></i><i></i><i></i><span>projet.js</span></div><pre><span class="c" data-t="ws_c">// projet en cours</span>
+<span class="k">const</span> client = <span class="k">await</span> nouveauProjet()
+build(client.site)
+build(client.app)
+deploy() <span class="ok">✓ en ligne</span></pre></div><div class="ws-note n-a" data-t="ws_n1">appli livrée ✓</div><div class="ws-note n-b" data-t="ws_n2">client content ✓</div><svg class="ws-mug" viewBox="0 0 64 64"><path d="M22 10c0 5 4 5 4 10M32 8c0 5 4 5 4 10" fill="none" stroke="#8C8C96" stroke-width="2.5" stroke-linecap="round"/><path d="M12 26h34v18a12 12 0 0 1-12 12H24a12 12 0 0 1-12-12z" fill="#FF4F1A"/><path d="M46 30h4a7 7 0 0 1 0 14h-4" fill="none" stroke="#FF4F1A" stroke-width="4"/></svg><span class="ws-lamp"></span></div></div>
       <p class="rot" data-xr="span.word · rotate 2.4s"><span data-t="rot_pre">Je construis</span><span class="slot"><span class="slot-w">des applications</span></span><span class="next" data-t="rot_next">→ des sites · des boutiques en ligne · des outils internes · des automatisations</span></p>
       <div class="ctas" data-xr="a.btn → wa.me/212…"><a class="pill sig" href="https://wa.me/212615665074" target="_blank" rel="noopener"><span data-t="cta1">Parlons de votre projet</span><span class="arr">↗</span></a><a class="pill line" href="#work" data-t="cta2">Voir les travaux</a></div>
     </div>
@@ -508,7 +519,7 @@ fr:{skip:"Aller au contenu",see:"Voir",close:"Fermer le menu",open:"Ouvrir le me
  pre1:"chargement du site",pre2:"chargement du système",pre3:"branchement",
  meta:"Disponible · réponse sous 24 h · Agadir, à distance",h1a:"Des sites web,",h1b:"et les systèmes",h1c:"derrière.",
  rot_pre:"Je construis",words:["des applications","des sites web","des boutiques en ligne","des outils internes","des automatisations"],rot_next:"→ des sites · des boutiques en ligne · des outils internes · des automatisations",
- cta1:"Parlons de votre projet",cta2:"Voir les travaux",hint:"rayon X : le système derrière la page ↓",hint_m:"touchez pour guider la loupe",portrait_alt:"Portrait de Simo Zerouali",xn1:"cerveau → Python · JavaScript · SQL",xn2:"lunettes → l'œil pour le détail",xn3:"sourire → réponse sous 24 h",xn4:"costume → livraison sérieuse",
+ cta1:"Parlons de votre projet",cta2:"Voir les travaux",hint:"rayon X : le système derrière la page ↓",hint_m:"touchez pour guider la loupe",portrait_alt:"Portrait de Simo Zerouali",ws_c:"// projet en cours",ws_n1:"appli livrée ✓",ws_n2:"client content ✓",
  code_c:"// ce que vos clients ne voient pas",
  work_a:"Travaux",work_b:"& coulisses",work_n:"05 projets<br>← glissez →<br>survol = rayon X",work_n_m:"05 projets",
  c1_t:"Danialand, parc de loisirs",c1_r:"Intégration de contenu, au sein de l'équipe",c1_d:"WordPress et WooCommerce avec réservation en ligne, en trois langues.",
@@ -531,7 +542,7 @@ en:{skip:"Skip to content",see:"View",close:"Close menu",open:"Open menu",nav1:"
  pre1:"loading the site",pre2:"loading the system",pre3:"connecting",
  meta:"Available · replies within 24 h · Agadir, remote",h1a:"Websites,",h1b:"and the systems",h1c:"behind them.",
  rot_pre:"I build",words:["apps","websites","online stores","internal tools","automations"],rot_next:"→ websites · online stores · internal tools · automations",
- cta1:"Tell me about your project",cta2:"See the work",hint:"x-ray: the system behind the page ↓",hint_m:"touch to steer the lens",portrait_alt:"Portrait of Simo Zerouali",xn1:"brain → Python · JavaScript · SQL",xn2:"glasses → an eye for detail",xn3:"smile → reply within 24 h",xn4:"suit → serious delivery",
+ cta1:"Tell me about your project",cta2:"See the work",hint:"x-ray: the system behind the page ↓",hint_m:"touch to steer the lens",portrait_alt:"Portrait of Simo Zerouali",ws_c:"// current project",ws_n1:"app shipped ✓",ws_n2:"happy client ✓",
  code_c:"// what your clients never see",
  work_a:"Work",work_b:"& backstage",work_n:"05 projects<br>← drag →<br>hover = x-ray",work_n_m:"05 projects",
  c1_t:"Danialand, leisure park",c1_r:"Content integration, as part of the team",c1_d:"WordPress and WooCommerce with online booking, in three languages.",
