@@ -691,7 +691,8 @@ if (FINE && !CAP) {
   function setCur(on) { if (on === curOn) return; curOn = on; gsap.to(cur, { scale: on ? 1 : 0, duration: on ? 0.35 : 0.2, ease: on ? "back.out(2)" : "power2.out", overwrite: true }); }
   function curHit() { var el = px < 0 ? null : document.elementFromPoint(px, py); setCur(!!(el && el.closest(".card[href]"))); }
   addEventListener("pointermove", function (e) { px = e.clientX; py = e.clientY; cx(px); cy(py); setCur(!!(e.target.closest && e.target.closest(".card[href]"))); });
-  addEventListener("scroll", curHit, { passive: true });
+  /* every frame: the scrubbed track keeps sliding after the scroll itself has ended */
+  gsap.ticker.add(function () { if (px >= 0) curHit(); });
   document.documentElement.addEventListener("pointerleave", function () { px = -1; setCur(false); });
   addEventListener("blur", function () { setCur(false); });
   document.addEventListener("visibilitychange", function () { if (document.hidden) setCur(false); });
