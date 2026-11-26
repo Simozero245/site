@@ -90,7 +90,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   -webkit-mask-image:radial-gradient(circle at var(--lx) var(--ly),transparent var(--lr),#000 calc(var(--lr) + 1.5px));
           mask-image:radial-gradient(circle at var(--lx) var(--ly),transparent var(--lr),#000 calc(var(--lr) + 1.5px))}
 .hin{position:absolute;inset:0}
-.h1{position:absolute;inset-inline-start:var(--pad);top:clamp(118px,17vh,168px);font-size:clamp(3rem,11.6vw,174px);line-height:.88;letter-spacing:-.055em;font-weight:700;max-width:calc(100% - 2*var(--pad))}
+.h1{position:absolute;inset-inline-start:var(--pad);top:clamp(118px,17vh,168px);font-size:clamp(3rem,min(11.6vw,24svh - 30px),174px);line-height:.88;letter-spacing:-.055em;font-weight:700;max-width:calc(100% - 2*var(--pad))}
 .h1 .it{color:var(--sig);font-size:1.05em;letter-spacing:-.03em}
 .meta{position:absolute;inset-inline-start:var(--pad);top:96px;font-family:var(--mono);font-size:12px;color:var(--mut)}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-inline-end:8px;animation:pulse 2s infinite}
@@ -325,7 +325,7 @@ footer .lg small{color:var(--code)}
 <span class="k">cron</span> reminders 09:00       <span class="s">ok</span>
 <span class="k">auto</span> invoice.pdf → e-mail  <span class="s">ok</span></div>
     <div class="code c2" aria-hidden="true"><span class="k">export default</span> {
-  lang: [<span class="s">'fr'</span>, <span class="s">'en'</span>, <span class="s">'ar'</span>],
+  lang: [<span class="s">'fr'</span>, <span class="s">'en'</span>],
   stack: [<span class="s">'Python'</span>, <span class="s">'JS'</span>, <span class="s">'SQL'</span>]
 }</div>
     <div class="node n1" aria-hidden="true">API<small>Python · FastAPI</small></div>
@@ -685,11 +685,17 @@ function phoneCardLens() {
 /* ================= CURSOR ================= */
 if (FINE && !CAP) {
   var cur = $(".cur"), cx = gsap.quickTo(cur, "x", { duration: 0.35, ease: "power3" }), cy = gsap.quickTo(cur, "y", { duration: 0.35, ease: "power3" });
-  addEventListener("pointermove", function (e) { cx(e.clientX); cy(e.clientY); });
-  $$(".card[href]").forEach(function (c) {
-    c.addEventListener("pointerenter", function () { gsap.to(cur, { scale: 1, duration: 0.35, ease: "back.out(2)" }); });
-    c.addEventListener("pointerleave", function () { gsap.to(cur, { scale: 0, duration: 0.25 }); });
-  });
+  /* shown only while the pointer is really over a project card (checked on move AND on scroll,
+     because the pinned track slides cards under a still pointer and pointerleave never fires) */
+  var curOn = false, px = -1, py = -1;
+  function setCur(on) { if (on === curOn) return; curOn = on; gsap.to(cur, { scale: on ? 1 : 0, duration: on ? 0.35 : 0.2, ease: on ? "back.out(2)" : "power2.out", overwrite: true }); }
+  function curHit() { var el = px < 0 ? null : document.elementFromPoint(px, py); setCur(!!(el && el.closest(".card[href]"))); }
+  addEventListener("pointermove", function (e) { px = e.clientX; py = e.clientY; cx(px); cy(py); setCur(!!(e.target.closest && e.target.closest(".card[href]"))); });
+  addEventListener("scroll", curHit, { passive: true });
+  document.documentElement.addEventListener("pointerleave", function () { px = -1; setCur(false); });
+  addEventListener("blur", function () { setCur(false); });
+  document.addEventListener("visibilitychange", function () { if (document.hidden) setCur(false); });
+  addEventListener("pageshow", function () { curOn = true; setCur(false); });
 }
 
 /* ================= TERMINAL ================= */
